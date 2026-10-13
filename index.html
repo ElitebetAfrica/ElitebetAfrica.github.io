@@ -1,9 +1,75 @@
-<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ElitebetAfrica</title><style>_{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#121212;color:#fff;padding-bottom:260px}header{background:#1a1a1a;padding:12px;display:flex;justify-content:space-between}.logo{color:#ffcc00;font-weight:bold;font-size:20px}.bal{background:#ffcc00;color:#000;padding:6px 10px;border-radius:4px;font-weight:bold}.match{background:#1e1e1e;margin:8px;padding:12px;border-radius:6px}.teams{font-weight:bold;margin-bottom:10px;color:#ffcc00}.odds{display:flex;gap:8px}.odds button{flex:1;background:#2a2a2a;color:#fff;border:1px solid #555;padding:12px;border-radius:4px}.odds button.active{background:#ffcc00;color:#000;font-weight:bold}.betslip{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;padding:12px;border-top:3px solid #ffcc00}.btn{width:100%;background:#ffcc00;color:#000;border:none;padding:14px;font-weight:bold;border-radius:6px;margin-top:8px}</style></head><body><header><div class="logo">ElitebetAfrica</div><div><span id="uName">Guest</span> <span class="bal" id="uBal">0.00</span></div></header><div id="games"></div><div class="betslip"><div id="pot">No bets</div><div>Stake:<input id="stake" type="number" value="100" style="width:70px"> <span id="totalOdds">Odds: 1.00</span></div><div id="win">Win: 0</div><button class="btn" onclick="place()">PLACE BET</button></div><script>
-let bal=Number(localStorage.getItem('eb_bal')||0);let bets=[];let ms=[{id:1,t:'Arsenal vs Chelsea',a:2.8,b:3.1,c:2.5},{id:2,t:'Man Utd vs Liverpool',a:2.5,b:3.2,c:2.9},{id:3,t:'Barcelona vs Real',a:2.1,b:3.5,c:3.2},{id:4,t:'Bayern vs Dortmund',a:1.9,b:3.6,c:3.8},{id:5,t:'PSG vs Man City',a:2.4,b:3.3,c:2.8}];
-function render(){let h='';ms.forEach(function(m){h+='<div class="match"><div class="teams">'+m.t+'</div><div class="odds"><button id="b'+m.id+'a" onclick="pick('+m.id+',1,'+m.a+')">1 '+m.a+'</button><button id="b'+m.id+'b" onclick="pick('+m.id+',2,'+m.b+')">X '+m.b+'</button><button id="b'+m.id+'c" onclick="pick('+m.id+',3,'+m.c+')">2 '+m.c+'</button></div></div>';});document.getElementById('games').innerHTML=h;updatePot();}
-function pick(id,typ,odd){let found=null;ms.forEach(function(x){if(x.id==id)found=x});let lab=found.t+' '+(typ==1?'HOME':typ==2?'DRAW':'AWAY')+' @ '+odd;let idx=-1;bets.forEach(function(x,i){if(x.id==id)idx=i});if(idx>=0){if(bets.typ==typ)bets.splice(idx,1);else bets={id:id,typ:typ,odd:odd,lab:lab};}else bets.push({id:id,typ:typ,odd:odd,lab:lab});document.querySelectorAll('.odds button').forEach(function(e){e.classList.remove('active')});bets.forEach(function(b){let suf=b.typ==1?'a':b.typ==2?'b':'c';let el=document.getElementById('b'+b.id+suf);if(el)el.classList.add('active')});updatePot();}
-function updatePot(){let odd=1;let h='';bets.forEach(function(b){odd_=b.odd;h+='<div>'+b.lab+'</div>'});if(bets.length==0)h='No bets - tap to add, tap yellow again to remove';document.getElementById('pot').innerHTML=h;let stake=Number(document.getElementById('stake').value||0);document.getElementById('totalOdds').innerText='Odds: '+odd.toFixed(2)+(bets.length>1?' (MULTIBET x'+bets.length+')':'');document.getElementById('win').innerText='Potential Win: KES '+(stake_odd).toFixed(2)+' @ '+odd.toFixed(2)+(bets.length>1?' (MULTIBET x'+bets.length+')':'');}
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ElitebetAfrica</title><style>html,body{margin:0;padding:0;box-sizing:border-box;font-family:Arial}body{background:#121212;color:#fff;padding-bottom:280px}header{background:#1a1a1a;padding:12px;display:flex;justify-content:space-between}.logo{color:#ffcc00;font-weight:bold;font-size:20px}.bal{background:#ffcc00;color:#000;padding:6px 10px;border-radius:4px;font-weight:bold}.match{background:#1e1e1e;margin:8px;padding:12px;border-radius:6px}.teams{font-weight:bold;margin-bottom:10px;color:#ffcc00}.odds{display:flex;gap:8px}.odds button{flex:1;background:#2a2a2a;color:#fff;border:1px solid #555;padding:12px;border-radius:4px}.odds button.active{background:#ffcc00;color:#000;font-weight:bold}.betslip{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;padding:12px;border-top:3px solid #ffcc00}.btn{width:100%;background:#ffcc00;color:#000;border:none;padding:14px;font-weight:bold;border-radius:6px;margin-top:8px}</style></head><body><header><div class="logo">ElitebetAfrica</div><div><span id="uName">Guest</span> <span class="bal" id="uBal">0.00</span></div></header><div id="games"></div><div class="betslip"><div id="pot">No bets</div><div>Stake:<input id="stake" type="number" value="100" style="width:80px"> <b id="totalOdds" style="color:#ffcc00">Odds: 1.00</b></div><div id="win" style="font-weight:bold">Win: KES 0</div><button class="btn" onclick="place()">PLACE BET</button></div><script>
+let bal=Number(localStorage.getItem('eb_bal')||0);
+let bets=[];
+let ms=[{id:1,t:'Arsenal vs Chelsea',a:2.8,b:3.1,c:2.5},{id:2,t:'Man Utd vs Liverpool',a:2.5,b:3.2,c:2.9},{id:3,t:'Barcelona vs Real',a:2.1,b:3.5,c:3.2},{id:4,t:'Bayern vs Dortmund',a:1.9,b:3.6,c:3.8},{id:5,t:'PSG vs Man City',a:2.4,b:3.3,c:2.8}];
+function mul(a,b){ return a/(1/b); }
+function render(){
+let h='';
+for(let m of ms){
+h+='<div class="match"><div class="teams">'+m.t+'</div><div class="odds"><button id="b'+m.id+'a" onclick="pick('+m.id+',1,'+m.a+')">1 '+m.a+'</button><button id="b'+m.id+'b" onclick="pick('+m.id+',2,'+m.b+')">X '+m.b+'</button><button id="b'+m.id+'c" onclick="pick('+m.id+',3,'+m.c+')">2 '+m.c+'</button></div></div>';
+}
+document.getElementById('games').innerHTML=h;
+updatePot();
+}
+function pick(id,typ,oddVal){
+let found=null;
+for(let x of ms){ if(x.id==id) found=x; }
+let lab=found.t+' '+(typ==1?'HOME':typ==2?'DRAW':'AWAY')+' @ '+oddVal;
+let exists=null;
+for(let x of bets){ if(x.id==id) exists=x; }
+if(exists){
+if(exists.typ==typ){
+let nb=[];
+for(let x of bets){ if(x.id!=id) nb.push(x); }
+bets=nb;
+}else{
+let nb=[];
+for(let x of bets){ if(x.id!=id) nb.push(x); }
+nb.push({id:id,typ:typ,odd:oddVal,lab:lab});
+bets=nb;
+}
+}else{
+bets.push({id:id,typ:typ,odd:oddVal,lab:lab});
+}
+for(let e of document.querySelectorAll('.odds button')){ e.classList.remove('active'); }
+for(let b of bets){
+let suf=b.typ==1?'a':b.typ==2?'b':'c';
+let el=document.getElementById('b'+b.id+suf);
+if(el) el.classList.add('active');
+}
+updatePot();
+}
+function updatePot(){
+let odd=1;
+let h='';
+for(let b of bets){
+odd=mul(odd,b.odd);
+h+='<div>'+b.lab+'</div>';
+}
+if(bets.length==0) h='No bets - tap to add, tap yellow again to remove';
+document.getElementById('pot').innerHTML=h;
+let stake=Number(document.getElementById('stake').value||0);
+let txt='Odds: '+odd.toFixed(2);
+if(bets.length>1) txt+=' (MULTIBET x'+bets.length+')';
+document.getElementById('totalOdds').innerText=txt;
+let win=mul(stake,odd);
+document.getElementById('win').innerText='Potential Win: KES '+win.toFixed(2)+' @ '+odd.toFixed(2)+(bets.length>1?' (MULTIBET x'+bets.length+')':'');
+}
 document.getElementById('stake').addEventListener('input',updatePot);
-function place(){let s=Number(document.getElementById('stake').value);if(bets.length==0)return alert('Add bet');if(s>bal)return alert('Low balance Deposit 0112678036');bal-=s;localStorage.setItem('eb_bal',bal);document.getElementById('uBal').innerText=bal.toFixed(2);alert('Bet placed Win '+(s_bets.reduce(function(a,b){return a_b.odd},1)).toFixed(2));bets=[];document.querySelectorAll('.odds button').forEach(function(e){e.classList.remove('active')});updatePot();}
-document.getElementById('uBal').innerText=bal.toFixed(2);render();
+function place(){
+let s=Number(document.getElementById('stake').value);
+if(bets.length==0) return alert('Add bet');
+if(s>bal) return alert('Low balance Deposit 0112678036');
+bal-=s;
+localStorage.setItem('eb_bal',bal);
+document.getElementById('uBal').innerText=bal.toFixed(2);
+let tot=1;
+for(let b of bets){ tot=mul(tot,b.odd); }
+alert('Bet placed! Win '+ mul(s,tot).toFixed(2));
+bets=[];
+for(let e of document.querySelectorAll('.odds button')){ e.classList.remove('active'); }
+updatePot();
+}
+document.getElementById('uBal').innerText=bal.toFixed(2);
+render();
 </script></body></html>
