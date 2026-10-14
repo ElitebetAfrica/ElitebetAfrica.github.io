@@ -1,0 +1,15 @@
+{
+  "name": "EliteBetAfrica - Best Odds",
+  "short_name": "EliteBet",
+  "start_url": "/?v=app",
+  "display": "standalone",
+  "background_color": "#5b21b6",
+  "theme_color": "#5b21b6",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/919/919412.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
