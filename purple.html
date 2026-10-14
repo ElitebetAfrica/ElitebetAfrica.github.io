@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ElitebetAfrica - Purple</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f5f5f5;padding-bottom:80px;color:#222}
+#header{background:#5b21b6;color:#fff;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+#header .logo{font-weight:900;font-size:20px;font-style:italic}
+#header .logo span{font-weight:400;font-size:10px;display:block;font-style:normal}
+.btn-dep{background:#fff;color:#5b21b6;border:0;padding:7px 14px;border-radius:4px;font-weight:bold;font-size:13px}
+.btn-bal{background:#00000033;border:1px solid #fff;color:#fff;padding:6px 10px;border-radius:20px;display:flex;gap:6px;font-size:13px;font-weight:bold}
+.top-scroll{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#fff}
+.top-card{min-width:110px;height:70px;border-radius:8px;background:#222;flex-shrink:0;display:flex;align-items:flex-end;padding:6px;color:#fff;font-weight:bold;font-size:12px;cursor:pointer}
+.top-card:nth-child(1){background:linear-gradient(135deg,#5b21b6,#9d4edd)}
+.top-card:nth-child(2){background:linear-gradient(135deg,#4a148c,#7c4dff)}
+.top-card:nth-child(3){background:linear-gradient(135deg,#311b92,#5e35b1)}
+.nav-icons{display:flex;justify-content:space-around;background:#fff;padding:10px 0;border-bottom:1px solid #eee}
+.nav-i{text-align:center;font-size:11px;color:#333;cursor:pointer}
+.nav-i .ic{font-size:22px;display:block}
+.nav-i.active{color:#5b21b6}
+.h-tabs{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#f5f5f5}
+.h-tab{background:#fff;border:1px solid #ddd;padding:10px 14px;border-radius:4px;font-weight:bold;font-size:12px;white-space:nowrap;min-width:120px;text-align:center;cursor:pointer;border-top:3px solid transparent}
+.h-tab.on{border-top-color:#5b21b6}
+.sec{background:#fff;margin-top:8px}
+.sec-head{display:flex;gap:16px;padding:12px 10px;border-bottom:1px solid #eee;font-weight:bold;font-size:14px;overflow-x:auto;white-space:nowrap}
+.sec-head .on{color:#000;border-bottom:2px solid #5b21b6}
+.match-card{background:#fff;border-bottom:1px solid #eee;padding:10px}
+.teams{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+.team{text-align:center;width:30%;font-size:13px}
+.logo-circle{width:44px;height:44px;border-radius:50%;background:#eee;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:18px}
+.odds-row{display:flex;gap:6px}
+.odd-btn{flex:1;background:#f3e8ff;border:1px solid #d8b4fe;padding:10px 4px;border-radius:6px;text-align:center;cursor:pointer;display:flex;justify-content:space-between;font-size:13px}
+.odd-btn.on{background:#5b21b6;color:#fff;border-color:#5b21b6}
+.odd-btn span:last-child{font-weight:bold}
+.betslip-float{position:fixed;bottom:80px;right:16px;background:#00c853;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:40;cursor:pointer}
+.betslip-float .count{position:absolute;top:-4px;right:-4px;background:#fff;color:#00c853;width:22px;height:22px;border-radius:50%;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;border:2px solid #00c853}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;color:#aaa;display:flex;justify-content:space-around;padding:6px 0 4px;z-index:50;border-top:1px solid #333}
+.bn{text-align:center;font-size:10px;cursor:pointer;flex:1}
+.bn .ic{font-size:20px;display:block}
+.bn.active{color:#fff}
+#slipPanel{position:fixed;bottom:60px;left:0;right:0;background:#fff;border-top:2px solid #5b21b6;max-height:50vh;overflow:auto;display:none;z-index:45}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;justify-content:center;align-items:center;padding:15px}
+.modal.show{display:flex}
+.box{background:#fff;padding:18px;border-radius:8px;width:100%;max-width:380px;max-height:90vh;overflow:auto}
+.box h3{color:#5b21b6;margin-bottom:10px}
+.box input{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:4px}
+.btn{padding:11px;border:0;border-radius:4px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px}
+.btn-purple{background:#5b21b6;color:#fff}
+.btn-green{background:#00c853;color:#fff}
+.btn-dark{background:#333;color:#fff}
+.stkBox{background:#5b21b6;color:#fff;padding:10px;border-radius:6px;text-align:center;display:none;margin:8px 0}
+.bar{height:6px;background:#fff;border-radius:3px;margin-top:6px;overflow:hidden}
+.bar div{height:100%;background:#ffcc00;width:0%;transition:width .3s}
+.aviatorBox{background:linear-gradient(135deg,#1a0033,#5b21b6);color:#fff;padding:14px;border-radius:10px;text-align:center;margin:10px}
+</style>
+</head>
+<body>
+<div id="header">
+<div class="logo">ElitebetAfrica<span>BEST ODDS PURPLE</span></div>
+<div style="display:flex;gap:8px;align-items:center">
+<button class="btn-dep" onclick="openM('dM')">Deposit</button>
+<div class="btn-bal" onclick="openM('lM')">👤 <span id="balHead">KES 0.00</span></div>
+</div>
+</div>
+<div class="top-scroll">
+<div class="top-card" onclick="switchMain('avi')">Crash Games<br>World Cup</div>
+<div class="top-card">Lucky<br>Numbers</div>
+<div class="top-card">LASK vs<br>LIV</div>
+<div class="top-card" onclick="switchMain('avi')">Sporty<br>Kick</div>
+<div class="top-card" onclick="switchMain('bask')">Sky<br>Legends</div>
+<div class="top-card">AVL vs<br>Fulham</div>
+</div>
+<div class="nav-icons">
+<div class="nav-i active" onclick="switchMain('foot')">⚽<br>All Sports</div>
+<div class="nav-i" onclick="switchMain('live')">📺<br>Live</div>
+<div class="nav-i" onclick="openM('codeM')">🔗<br>Load Code</div>
+<div class="nav-i" onclick="switchMain('avi')">✈️<br>Aviator</div>
+<div class="nav-i" onclick="switchMain('bask')">🏀<br>Virtuals</div>
+<div class="nav-i" onclick="openM('aM')">•••<br>More</div>
+</div>
+<div class="h-tabs">
+<div class="h-tab on">TODAY'S<br>FOOTBALL</div>
+<div class="h-tab">FOOTBALL IN<br>NEXT 3 HOURS</div>
+<div class="h-tab">CHAMPIONS<br>LEAGUE</div>
+</div>
+<div class="sec" id="sec-foot">
+<div class="sec-head"><span class="on">Featured</span><span>Matches</span><span>Games</span><span>Codes</span><span>Virtuals</span></div><div style="display:flex;gap:8px;overflow-x:auto;padding:10px"><div style="border:1px solid #5b21b6;border-radius:20px;padding:6px 12px;font-size:12px;white-space:nowrap">🏆 UEFA Champions League</div><div style="border:1px solid #ddd;border-radius:20px;padding:6px 12px;font-size:12px">🇪🇸 LaLiga</div><div style="border:1px solid #ddd;border-radius:20px;padding:6px 12px;font-size:12px">🏴󐁧󐁢󐁥󐁮󐁧󐁿 Premier</div></div>
+<div class="match-card"><div style="font-size:11px;color:#666;margin-bottom:6px">🔥 HOT BEST ODDS 🏆 Football - UEFA Champions League</div><div class="teams"><div class="team"><div class="logo-circle" style="background:#6EC6FF">💙</div>Man City</div><div style="width:40%;text-align:center;font-size:12px"><b>22:00 | Today</b><br><span style="color:#5b21b6;font-weight:bold">1X2 Boosted</span></div><div class="team"><div class="logo-circle" style="background:#004170;color:#fff">PSG</div>PSG</div></div><div class="odds-row"><div class="odd-btn" id="o1" onclick="pick(1,1,2.10,'Man City')"><span>1</span><span>2.10</span></div><div class="odd-btn" id="o2" onclick="pick(1,2,4.10,'Draw')"><span>X</span><span>4.10</span></div><div class="odd-btn" id="o3" onclick="pick(1,3,3.40,'PSG')"><span>2</span><span>3.40</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team"><div class="logo-circle" style="background:#008000;color:#fff">GM</div>Gor Mahia</div><div style="text-align:center"><b>16:00</b></div><div class="team"><div class="logo-circle">AFC</div>AFC Leopards</div></div><div class="odds-row"><div class="odd-btn" id="o4" onclick="pick(2,1,2.10,'Gor')"><span>1</span><span>2.10</span></div><div class="odd-btn" id="o5" onclick="pick(2,2,3.00,'Draw')"><span>X</span><span>3.00</span></div><div class="odd-btn" id="o6" onclick="pick(2,3,3.50,'AFC')"><span>2</span><span>3.50</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team"><div class="logo-circle">FCB</div>Barcelona</div><div style="text-align:center"><b>18:30</b></div><div class="team"><div class="logo-circle">RMA</div>Real Madrid</div></div><div class="odds-row"><div class="odd-btn" id="o7" onclick="pick(3,1,2.30,'Barca')"><span>1</span><span>2.30</span></div><div class="odd-btn" id="o8" onclick="pick(3,2,3.20,'Draw')"><span>X</span><span>3.20</span></div><div class="odd-btn" id="o9" onclick="pick(3,3,2.90,'Real')"><span>2</span><span>2.90</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">Inter</div><div><b>19:45</b></div><div>AC Milan</div></div><div class="odds-row"><div class="odd-btn" id="o10" onclick="pick(4,1,2.15,'Inter')"><span>1</span><span>2.15</span></div><div class="odd-btn" id="o11" onclick="pick(4,2,3.10,'Draw')"><span>X</span><span>3.10</span></div><div class="odd-btn" id="o12" onclick="pick(4,3,3.40,'Milan')"><span>2</span><span>3.40</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">Bayern</div><div><b>20:30</b></div><div>Dortmund</div></div><div class="odds-row"><div class="odd-btn" id="o13" onclick="pick(5,1,1.70,'Bayern')"><span>1</span><span>1.70</span></div><div class="odd-btn" id="o14" onclick="pick(5,2,4.00,'Draw')"><span>X</span><span>4.00</span></div><div class="odd-btn" id="o15" onclick="pick(5,3,4.80,'Dortmund')"><span>2</span><span>4.80</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">PSG</div><div><b>21:00</b></div><div>Marseille</div></div><div class="odds-row"><div class="odd-btn" id="o16" onclick="pick(6,1,1.60,'PSG')"><span>1</span><span>1.60</span></div><div class="odd-btn" id="o17" onclick="pick(6,2,4.20,'Draw')"><span>X</span><span>4.20</span></div><div class="odd-btn" id="o18" onclick="pick(6,3,5.20,'Marseille')"><span>2</span><span>5.20</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">Tusker</div><div><b>14:00</b></div><div>Shabana</div></div><div class="odds-row"><div class="odd-btn" id="o19" onclick="pick(7,1,1.95,'Tusker')"><span>1</span><span>1.95</span></div><div class="odd-btn" id="o20" onclick="pick(7,2,3.10,'Draw')"><span>X</span><span>3.10</span></div><div class="odd-btn" id="o21" onclick="pick(7,3,3.80,'Shabana')"><span>2</span><span>3.80</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">Liverpool</div><div><b>19:00</b></div><div>Chelsea</div></div><div class="odds-row"><div class="odd-btn" id="o22" onclick="pick(8,1,2.00,'Liverpool')"><span>1</span><span>2.00</span></div><div class="odd-btn" id="o23" onclick="pick(8,2,3.30,'Draw')"><span>X</span><span>3.30</span></div><div class="odd-btn" id="o24" onclick="pick(8,3,3.60,'Chelsea')"><span>2</span><span>3.60</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">Kenya</div><div><b>18:00</b></div><div>Uganda</div></div><div class="odds-row"><div class="odd-btn" id="o25" onclick="pick(9,1,2.20,'Kenya')"><span>1</span><span>2.20</span></div><div class="odd-btn" id="o26" onclick="pick(9,2,3.00,'Draw')"><span>X</span><span>3.00</span></div><div class="odd-btn" id="o27" onclick="pick(9,3,3.30,'Uganda')"><span>2</span><span>3.30</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">Man Utd</div><div><b>22:00</b></div><div>Juventus</div></div><div class="odds-row"><div class="odd-btn" id="o28" onclick="pick(10,1,2.40,'ManUtd')"><span>1</span><span>2.40</span></div><div class="odd-btn" id="o29" onclick="pick(10,2,3.20,'Draw')"><span>X</span><span>3.20</span></div><div class="odd-btn" id="o30" onclick="pick(10,3,2.80,'Juventus')"><span>2</span><span>2.80</span></div></div></div>
+</div>
+<div class="sec" id="sec-bask" style="display:none">
+<div class="match-card"><div class="teams"><div class="team">Lakers</div><div><b>02:00</b></div><div>Warriors</div></div><div class="odds-row"><div class="odd-btn" id="b1" onclick="pick(101,1,1.90,'Lakers')"><span>1</span><span>1.90</span></div><div class="odd-btn" id="b2" onclick="pick(101,2,3.50,'X')"><span>X</span><span>3.50</span></div><div class="odd-btn" id="b3" onclick="pick(101,3,2.10,'Warriors')"><span>2</span><span>2.10</span></div></div></div>
+<div class="match-card"><div class="teams"><div class="team">Bulls</div><div><b>03:30</b></div><div>Celtics</div></div><div class="odds-row"><div class="odd-btn" id="b4" onclick="pick(102,1,2.20,'Bulls')"><span>1</span><span>2.20</span></div><div class="odd-btn" id="b5" onclick="pick(102,2,3.30,'X')"><span>X</span><span>3.30</span></div><div class="odd-btn" id="b6" onclick="pick(102,3,1.85,'Celtics')"><span>2</span><span>1.85</span></div></div></div>
+</div>
+<div class="sec" id="sec-avi" style="display:none">
+<div class="aviatorBox"><div style="font-size:40px">✈️</div><div style="font-size:36px;color:#ffcc00;font-weight:bold" id="aviMult">1.00x</div><div id="aviStatus" style="color:#00ff88;margin:6px 0">Aviator - Place Bet to Fly!</div><div style="display:flex;gap:6px;margin-top:10px"><input id="aviStake" type="number" placeholder="Stake 100" style="flex:1;padding:10px;border-radius:4px;border:0"><button id="aviBtn" class="btn-purple" style="flex:1;width:auto;margin:0" onclick="aviPlay()">BET & FLY</button></div><button onclick="aviCash()" id="cashBtn" disabled style="width:100%;margin-top:8px;padding:10px;background:#333;color:#fff;border:0;border-radius:4px;font-weight:bold">CASHOUT</button><div style="font-size:11px;margin-top:8px">Last: <span id="aviHistory">2.14x 5.32x 1.23x 8.90x 1.05x</span></div></div>
+</div>
+<div class="sec" id="sec-live" style="display:none">
+<div style="background:#5b21b6;color:#fff;display:flex;gap:6px;padding:10px;overflow-x:auto"><span style="border-bottom:2px solid #ffcc00">Live</span><span>Football</span><span>Basketball</span></div>
+<div style="background:#2a2a2a;color:#fff;padding:10px"><div style="color:#00ff88;font-size:12px">89:13 H2 - AFC Champions League</div><div style="display:flex;justify-content:space-between;margin-top:6px"><span>Kashiwa Reysol 5 - 1 Port FC</span><span><div style="display:flex;gap:6px"><div style="background:#3a3a3a;padding:6px;border-radius:4px;color:#00ff88;cursor:pointer" onclick="pick(201,1,5.50,'Kashiwa')">5.50</div><div style="background:#3a3a3a;padding:6px;border-radius:4px;color:#00ff88">1.16</div><div style="background:#3a3a3a;padding:6px;border-radius:4px;color:#00ff88">13.00</div></div></span></div></div>
+</div>
+<div class="betslip-float" onclick="toggleSlip()">📋<span class="count" id="slipCount">0</span></div>
+<div id="slipPanel"><div style="padding:10px"><div id="betItems" style="font-size:13px;max-height:120px;overflow:auto"></div><div style="display:flex;justify-content:space-between;margin:8px 0;font-size:13px"><span>Games: <b id="count">0</b></span><span>Odds: <b id="totalOdds">1.00</b></span><span>Win: <b id="potential" style="color:#5b21b6">KES 0</b></span></div><div style="display:flex;gap:6px"><input id="stake" type="number" placeholder="Stake Min 50" oninput="calcW()" style="flex:1;padding:10px;border:1px solid #ccc;border-radius:4px"><button style="background:#5b21b6;color:#fff;padding:10px 16px;border:0;border-radius:4px;font-weight:bold" onclick="placeB()">Place Bet</button></div><div style="display:flex;gap:6px;margin-top:6px"><button class="btn-dark" style="flex:1;padding:8px" onclick="clearB()">Clear All</button><button class="btn-dark" style="flex:1;padding:8px" onclick="toggleSlip()">Close</button></div></div></div>
+<div class="bottom-nav"><div class="bn active" onclick="switchMain('foot')"><span class="ic">💲</span>Home</div><div class="bn" onclick="openM('aM')"><span class="ic">☰</span>AZ Menu</div><div class="bn" onclick="switchMain('avi')"><span class="ic">🎮</span>Games</div><div class="bn" onclick="alert('Open Bets: '+bets.length)"><span class="ic">💲</span>Open Bets</div><div class="bn" onclick="openM('lM')"><span class="ic">👤</span>Me</div></div>
+<div class="modal" id="lM"><div class="box"><h3>Login to ElitebetAfrica 💜</h3><input id="lP" placeholder="Phone 0112678036"><input id="lK" type="password" placeholder="PIN"><div id="lMsg" style="color:red;font-size:12px"></div><button class="btn btn-purple" onclick="doL()">Login</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="rM"><div class="box"><h3>Register - Get KES 100 Bonus! 💜</h3><input id="rP" placeholder="Phone"><input id="rK" type="password" placeholder="Create PIN"><div id="rMsg" style="color:red;font-size:12px"></div><button class="btn btn-green" onclick="doR()">Register</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="dM"><div class="box"><h3>💰 Deposit - M-Pesa STK 💜</h3><input id="dPh" placeholder="M-Pesa Number"><input id="dAm" type="number" placeholder="Amount Min 50"><div id="dMsg" style="font-size:12px"></div><div class="stkBox" id="stkBox"><div>📲 STK Push Sent! Enter PIN</div><div class="bar"><div id="stkBar"></div></div><div id="stkTimer">30s</div></div><button class="btn btn-purple" id="dBtn" onclick="doD()">Send STK Push</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="wM"><div class="box"><h3>💸 Withdraw</h3><div>Balance: <b id="wBal" style="color:#5b21b6">KES 0</b></div><input id="wPh" placeholder="M-Pesa Number"><input id="wAm" type="number" placeholder="Amount Min 100"><div id="wMsg" style="font-size:12px"></div><button class="btn btn-purple" onclick="doW()">Withdraw Now</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="aM"><div class="box"><h3>👑 Admin - ElitebetAfrica 💜</h3><div>Users: <b id="aUsers">0</b> | Total: <b id="aBal">KES 0</b></div><div id="aList" style="max-height:300px;overflow:auto;margin-top:8px"></div><button class="btn btn-dark" onclick="closeM()">Close</button><button class="btn" style="background:red;color:#fff;margin-top:6px" onclick="if(confirm('Reset ALL?')){localStorage.clear();location.reload()}">Reset All</button></div></div>
+<div class="modal" id="codeM"><div class="box"><h3>Load Booking Code</h3><input id="codeIn" placeholder="Enter Code e.g. SPORTY100"><div id="codeMsg" style="font-size:12px"></div><button class="btn btn-purple" onclick="loadCode()">Load Code</button><button class="btn btn-dark" onclick="closeM()">Cancel</button><div style="font-size:11px;margin-top:8px;color:#666">Try: SPORTY100, ELITE500, WIN2024</div></div></div>
+<script>
+var cur=null;try{cur=JSON.parse(localStorage.getItem('elite_current'))}catch(e){}
+var bets=[];var ADMIN='0112678036';
+function switchMain(t){document.getElementById('sec-foot').style.display=t=='foot'?'block':'none';document.getElementById('sec-bask').style.display=t=='bask'?'block':'none';document.getElementById('sec-avi').style.display=t=='avi'?'block':'none';document.getElementById('sec-live').style.display=t=='live'?'block':'none';var icons=document.querySelectorAll('.nav-i');for(var i=0;i<icons.length;i++){icons[i].className='nav-i'}if(t=='foot')icons[0].className='nav-i active';if(t=='live')icons[1].className='nav-i active';if(t=='avi')icons[3].className='nav-i active';if(t=='bask')icons[4].className='nav-i active';}
+function openM(id){document.getElementById(id).className='modal show';if(id=='wM'){document.getElementById('wBal').innerText='KES '+(cur?Math.floor(cur.balance):0);document.getElementById('wPh').value=cur?cur.phone:''}if(id=='dM'){document.getElementById('dPh').value=cur?cur.phone:''}if(id=='aM'){loadAdmin()}}
+function closeM(){var ms=document.getElementsByClassName('modal');for(var i=0;i<ms.length;i++){ms[i].className='modal'}}
+function doR(){var p=document.getElementById('rP').value.trim();var k=document.getElementById('rK').value.trim();if(!p||!k){document.getElementById('rMsg').innerText='Fill all';return}var u=JSON.parse(localStorage.getItem('elite_users')||'[]');for(var i=0;i<u.length;i++){if(u[i].phone==p){document.getElementById('rMsg').innerText='Exists';return}}u.push({phone:p,pin:k,balance:100});localStorage.setItem('elite_users',JSON.stringify(u));cur={phone:p,pin:k,balance:100};localStorage.setItem('elite_current',JSON.stringify(cur));closeM();showW();alert('Bonus KES 100 added!')}
+function doL(){var raw=document.getElementById('lP').value;var p=raw.replace(/[^0-9]/g,'');var k=document.getElementById('lK').value.trim();if(p.indexOf('112678036')>=0){cur={phone:ADMIN,pin:k,balance:999999};localStorage.setItem('elite_current',JSON.stringify(cur));closeM();showW();alert('WELCOME BOSS! 💜');return}var u=JSON.parse(localStorage.getItem('elite_users')||'[]');var f=null;for(var i=0;i<u.length;i++){if(u[i].phone.replace(/[^0-9]/g,'')==p){f=u[i];break}}if(!f){document.getElementById('lMsg').innerText='Not registered';return}if(f.pin!=k){document.getElementById('lMsg').innerText='Wrong PIN';return}cur=f;localStorage.setItem('elite_current',JSON.stringify(cur));closeM();showW();}
+function showW(){var bal=document.getElementById('balHead');if(cur){bal.innerText='KES '+Math.floor(cur.balance).toLocaleString()+'.00'}else{bal.innerText='KES 0.00'}}
+function pick(mid,ch,odd,team){if(!cur){openM('lM');return}var idx=-1;for(var i=0;i<bets.length;i++){if(bets[i].mid==mid){idx=i;break}}if(idx>=0){var same=bets[idx].ch==ch;bets.splice(idx,1);if(!same){bets.push({mid:mid,ch:ch,odd:odd,team:team})}}else{bets.push({mid:mid,ch:ch,odd:odd,team:team})}render();}
+function render(){for(var i=1;i<=30;i++){var e=document.getElementById('o'+i);if(e)e.className='odd-btn'}for(var i=1;i<=15;i++){var e=document.getElementById('b'+i);if(e)e.className='odd-btn'}var slip=document.getElementById('slipPanel');var box=document.getElementById('betItems');if(bets.length==0){box.innerHTML='No bets';document.getElementById('slipCount').innerText='0';document.getElementById('count').innerText='0';return}var h='';var total=1;for(var i=0;i<bets.length;i++){var b=bets[i];h+='<div style=display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid #eee><span>'+b.team+' @'+b.odd+'</span><span style=color:red;cursor:pointer onclick=rem('+b.mid+')>✕</span></div>';total*=b.odd;var oid=null;if(b.mid<=10){oid='o'+((b.mid-1)*3+b.ch)}else{oid='b'+((b.mid-101)*3+b.ch)}if(oid){var el=document.getElementById(oid);if(el)el.className='odd-btn on'}}box.innerHTML=h;document.getElementById('slipCount').innerText=bets.length;document.getElementById('count').innerText=bets.length;document.getElementById('totalOdds').innerText=total.toFixed(2);calcW();slip.style.display='block';}
+function rem(mid){var n=[];for(var i=0;i<bets.length;i++){if(bets[i].mid!=mid)n.push(bets[i])}bets=n;render();if(bets.length==0)document.getElementById('slipPanel').style.display='none';}
+function clearB(){bets=[];render();document.getElementById('slipPanel').style.display='none';}
+function calcW(){var s=parseFloat(document.getElementById('stake').value||0);var tot=1;for(var i=0;i<bets.length;i++){tot*=bets[i].odd}document.getElementById('potential').innerText='KES '+Math.floor(s*tot).toLocaleString()}
+function placeB(){var s=parseFloat(document.getElementById('stake').value||0);if(bets.length==0){alert('Select game');return}if(s<50){alert('Min 50');return}var tot=1;for(var i=0;i<bets.length;i++){tot*=bets[i].odd}if(cur.phone!=ADMIN&&cur.balance<s){alert('Low balance! Deposit');openM('dM');return}if(cur.phone!=ADMIN)cur.balance-=s;var win=Math.floor(s*tot);var u=JSON.parse(localStorage.getItem('elite_users')||'[]');for(var i=0;i<u.length;i++){if(u[i].phone==cur.phone){u[i].balance=cur.balance;break}}localStorage.setItem('elite_users',JSON.stringify(u));localStorage.setItem('elite_current',JSON.stringify(cur));alert('BET PLACED! Win: KES '+win);bets=[];document.getElementById('stake').value='';render();document.getElementById('slipPanel').style.display='none';showW();}
+function toggleSlip(){var s=document.getElementById('slipPanel');s.style.display=s.style.display=='none'?'block':'none'}
+function doD(){var ph=document.getElementById('dPh').value.trim();var am=parseFloat(document.getElementById('dAm').value||0);var msg=document.getElementById('dMsg');var box=document.getElementById('stkBox');var bar=document.getElementById('stkBar');var timer=document.getElementById('stkTimer');if(!ph||am<50){msg.style.color='red';msg.innerText='Min 50';return}msg.innerText='';box.style.display='block';document.getElementById('dBtn').disabled=true;var prog=0;var sec=30;var iv=setInterval(function(){prog+=2;bar.style.width=prog+'%';sec-=0.6;timer.innerText=Math.ceil(sec)+'s';if(prog>=100){clearInterval(iv);if(!cur){cur={phone:ph,pin:'1234',balance:0}}cur.balance+=am;localStorage.setItem('elite_current',JSON.stringify(cur));var u=JSON.parse(localStorage.getItem('elite_users')||'[]');var found=false;for(var i=0;i<u.length;i++){if(u[i].phone==cur.phone){u[i].balance=cur.balance;found=true;break}}if(!found){u.push(cur)}localStorage.setItem('elite_users',JSON.stringify(u));msg.style.color='green';msg.innerText='SUCCESS KES '+am+' added!';box.style.display='none';showW();setTimeout(function(){closeM();document.getElementById('dBtn').disabled=false;msg.innerText='';},1500)}},600)}
+function doW(){var ph=document.getElementById('wPh').value.trim();var am=parseFloat(document.getElementById('wAm').value||0);var msg=document.getElementById('wMsg');if(!ph||am<100){msg.style.color='red';msg.innerText='Min 100';return}if(cur.phone!=ADMIN&&cur.balance<am){msg.style.color='red';msg.innerText='Low bal';return}cur.balance-=am;localStorage.setItem('elite_current',JSON.stringify(cur));var u=JSON.parse(localStorage.getItem('elite_users')||'[]');for(var i=0;i<u.length;i++){if(u[i].phone==cur.phone){u[i].balance=cur.balance;break}}localStorage.setItem('elite_users',JSON.stringify(u));msg.style.color='green';msg.innerText='Withdraw KES '+am+' to '+ph+' sent!';showW();setTimeout(function(){closeM();msg.innerText='';},2500)}
+function loadAdmin(){var u=JSON.parse(localStorage.getItem('elite_users')||'[]');var total=0;for(var i=0;i<u.length;i++){total+=u[i].balance}document.getElementById('aUsers').innerText=u.length;document.getElementById('aBal').innerText='KES '+Math.floor(total).toLocaleString();var h='';for(var i=0;i<u.length;i++){h+='<div style=display:flex;justify-content:space-between;padding:6px;border-bottom:1px solid #eee;font-size:12px><span>'+u[i].phone+' PIN:'+u[i].pin+'</span><span style=color:#5b21b6;font-weight:bold>KES '+Math.floor(u[i].balance)+'</span></div>'}document.getElementById('aList').innerHTML=h||'No users';}
+function loadCode(){var c=document.getElementById('codeIn').value.trim().toUpperCase();if(!c){document.getElementById('codeMsg').innerText='Enter code';return}var codes={'SPORTY100':[1,2,3],'ELITE500':[4,5,6,7],'WIN2024':[8,9,10,101,102]};if(codes[c]){bets=[];var arr=codes[c];for(var i=0;i<arr.length;i++){var mid=arr[i];var ch=Math.floor(Math.random()*3)+1;var odd=(Math.random()*2+1.5).toFixed(2);bets.push({mid:mid,ch:ch,odd:parseFloat(odd),team:'Team'+mid})}render();document.getElementById('codeMsg').style.color='green';document.getElementById('codeMsg').innerText='Code loaded! '+bets.length+' games!';setTimeout(function(){closeM();toggleSlip()},1000)}else{document.getElementById('codeMsg').style.color='red';document.getElementById('codeMsg').innerText='Invalid! Try SPORTY100'}}
+var aviRunning=false;var aviMultNum=1.0;var aviInterval=null;var aviStake=0;
+function aviPlay(){if(!cur){openM('lM');return}var s=parseFloat(document.getElementById('aviStake').value||0);if(s<50){alert('Min 50');return}if(cur.phone!=ADMIN&&cur.balance<s){alert('Low balance!');openM('dM');return}aviStake=s;if(cur.phone!=ADMIN)cur.balance-=s;localStorage.setItem('elite_current',JSON.stringify(cur));showW();aviRunning=true;aviMultNum=1.0;document.getElementById('aviStatus').innerText='✈️ Flying...';document.getElementById('aviBtn').disabled=true;document.getElementById('cashBtn').disabled=false;document.getElementById('cashBtn').style.background='#00c853';var crashAt=(Math.random()*9+1.2);if(Math.random()<0.25)crashAt=Math.random()*0.8+1;aviInterval=setInterval(function(){aviMultNum+=0.05+aviMultNum*0.025;document.getElementById('aviMult').innerText=aviMultNum.toFixed(2)+'x';if(aviMultNum>=crashAt){clearInterval(aviInterval);aviRunning=false;document.getElementById('aviStatus').innerText='💥 CRASHED at '+aviMultNum.toFixed(2)+'x! Lost!';document.getElementById('aviBtn').disabled=false;document.getElementById('cashBtn').disabled=true;}},100)}
+function aviCash(){if(!aviRunning)return;clearInterval(aviInterval);aviRunning=false;var win=Math.floor(aviStake*aviMultNum);cur.balance+=win;localStorage.setItem('elite_current',JSON.stringify(cur));var u=JSON.parse(localStorage.getItem('elite_users')||'[]');for(var i=0;i<u.length;i++){if(u[i].phone==cur.phone){u[i].balance=cur.balance;break}}localStorage.setItem('elite_users',JSON.stringify(u));document.getElementById('aviStatus').innerText='✅ WON KES '+win+' at '+aviMultNum.toFixed(2)+'x';document.getElementById('aviBtn').disabled=false;document.getElementById('cashBtn').disabled=true;showW();}
+showW();
+</script>
+</body>
+</html>
