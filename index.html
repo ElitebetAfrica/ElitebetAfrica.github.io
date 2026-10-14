@@ -1,169 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ElitebetAfrica</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ElitebetAfrica - Bet & Win</title>
 <style>
-body{background:#121212;color:#fff;font-family:Arial;margin:0;padding:0}
-.header{background:#1a1a1a;padding:12px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
-.logo{color:#ffcc00;font-weight:bold;font-size:20px}
-.btn{padding:8px 14px;border:none;border-radius:6px;font-weight:bold}
+body{background:#121212;color:#fff;font-family:Arial;margin:0}
+.header{background:#1a1a1a;padding:12px 15px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ffcc00;position:sticky;top:0;z-index:10}
+.logo{font-weight:bold;color:#ffcc00;font-size:20px}
+.btn{padding:8px 14px;border:none;border-radius:4px;cursor:pointer;font-weight:bold}
 .btn-yellow{background:#ffcc00;color:#000}
-.btn-green{background:#00a651;color:#fff}
-.match-card{background:#1e1e1e;margin:10px;padding:12px;border-radius:10px}
-.match-card h3{color:#ffcc00;margin:0 0 8px;font-size:13px}
-.match-card b{font-size:16px}
-.odds-row{display:flex;gap:6px;margin-top:8px}
-.odds-row button{flex:1;padding:12px;background:#2a2a2a;color:#fff;border:none;border-radius:6px;font-weight:bold}
-.odds-row button.selected{background:#ffcc00;color:#000}
-#betslip{background:#1a1a1a;border-top:3px solid #ffcc00;padding:12px;position:fixed;bottom:0;width:100%;box-sizing:border-box}
-#stakeInput{width:80px;padding:8px;border-radius:6px;border:none}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center}
-.modal-box{background:#222;padding:20px;border-radius:10px;width:85%;max-width:320px}
-.modal-box input{width:100%;padding:12px;margin:6px 0;border-radius:6px;border:none;background:#333;color:#fff;box-sizing:border-box}
-.modal-box button{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:none;font-weight:bold}
+.btn-green{background:#00c853;color:#fff}
+#welcome{background:#222;padding:10px;text-align:center;font-size:14px;color:#ffcc00}
+.matches{padding:10px}
+.match{background:#1e1e1e;margin-bottom:10px;padding:12px;border-radius:8px;border-left:3px solid #ffcc00}
+.mteams{font-weight:bold;margin-bottom:8px}
+.odds{display:flex;gap:6px;flex-wrap:wrap}
+.odd{background:#2a2a2a;padding:6px 10px;border-radius:4px;cursor:pointer;border:1px solid #333}
+.odd:hover{background:#ffcc00;color:#000}
+.betslip{background:#1a1a1a;padding:12px;position:fixed;bottom:0;left:0;right:0;border-top:2px solid #ffcc00;max-height:50vh;overflow:auto}
+.modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.8);z-index:100;justify-content:center;align-items:center}
+.modal.show{display:flex}
+.modalBox{background:#222;padding:20px;border-radius:10px;width:90%;max-width:350px;border:1px solid #ffcc00}
+input{width:100%;padding:10px;margin:8px 0;background:#111;border:1px solid #444;color:#fff;border-radius:4px;box-sizing:border-box}
 </style>
 </head>
 <body>
 <div class="header">
 <div class="logo">ElitebetAfrica</div>
 <div>
-<button class="btn btn-yellow" onclick="openLogin()">Login</button>
-<button class="btn btn-green" onclick="openReg()">Register</button>
+<button id="loginBtn" class="btn btn-yellow" onclick="openLogin()">Login</button>
+<button id="regBtn" class="btn btn-green" onclick="openReg()">Register</button>
+<button id="logoutBtn" class="btn" style="background:#444;color:#fff;display:none" onclick="doLogout()">Logout</button>
 </div>
 </div>
-
-<div style="padding:10px">
-<p id="welcome" style="color:#ffcc00"></p>
-<h3>⚽ Today's Matches - REAL</h3>
-<div id="matches"></div>
+<div id="welcome">Login to bet - One PIN per number</div>
+<div class="matches" id="matches"></div>
+<div class="betslip" id="betslip" style="display:none">
+<div id="betItems"></div>
+<div style="margin-top:10px;display:flex;gap:5px">
+<input id="stake" type="number" placeholder="Stake KES" style="flex:1" oninput="calcWin()">
+<span id="potential" style="line-height:40px">Win: 0</span>
 </div>
-
-<div id="betslip" style="display:none">
-<div style="display:flex;justify-content:space-between">
-<span>Betslip (<span id="bc">0</span>)</span>
-<span id="odds">Odds: 1.00</span>
+<button class="btn btn-green" style="width:100%;margin-top:10px" onclick="placeBet()">Place Bet</button>
 </div>
-<div style="margin-top:8px;display:flex;gap:6px">
-<input id="stakeInput" type="number" placeholder="Stake KES">
-<button class="btn btn-yellow" style="flex:1" onclick="placeBet()">PLACE BET</button>
-<button class="btn" style="background:#444;color:#fff" onclick="clearSlip()">Clear</button>
-</div>
-</div>
-
-<div id="loginModal" class="modal">
-<div class="modal-box">
-<h3>Login - ElitebetAfrica</h3>
-<input id="loginPhone" placeholder="Phone e.g. 0712...">
-<input id="loginPin" type="password" placeholder="PIN">
-<button class="btn-yellow" onclick="doLogin()">LOGIN</button>
-<button style="background:#444;color:#fff" onclick="closeModals()">CLOSE</button>
-<p id="loginMsg" style="color:red"></p>
+<div class="modal" id="loginModal">
+<div class="modalBox">
+<h3 style="color:#ffcc00">Login</h3>
+<input id="loginPhone" placeholder="Phone e.g 0712345678">
+<input id="loginPin" type="password" placeholder="Your ONE PIN">
+<div id="loginMsg" style="color:#ff4444;font-size:13px"></div>
+<button class="btn btn-yellow" style="width:100%;margin-top:10px" onclick="doLogin()">Login</button>
+<button class="btn" style="width:100%;margin-top:5px;background:#333;color:#fff" onclick="closeModals()">Cancel</button>
 </div>
 </div>
-
-<div id="regModal" class="modal">
-<div class="modal-box">
-<h3>Register - One Time PIN</h3>
-<input id="regPhone" placeholder="Phone">
-<input id="regPin" type="password" placeholder="Create 4-digit PIN">
-<button class="btn-green" onclick="doReg()">REGISTER</button>
-<button style="background:#444;color:#fff" onclick="closeModals()">CLOSE</button>
-<p id="regMsg" style="color:orange"></p>
+<div class="modal" id="regModal">
+<div class="modalBox">
+<h3 style="color:#00c853">Register - One PIN Only</h3>
+<input id="regPhone" placeholder="Phone e.g 0712345678">
+<input id="regPin" type="password" placeholder="Create ONE PIN (cannot change)">
+<div id="regMsg" style="color:#ff4444;font-size:13px"></div>
+<button class="btn btn-green" style="width:100%;margin-top:10px" onclick="doReg()">Register</button>
+<button class="btn" style="width:100%;margin-top:5px;background:#333;color:#fff" onclick="closeModals()">Cancel</button>
 </div>
 </div>
-
 <script>
-let slip=[];
-let users=JSON.parse(localStorage.getItem('elite_users')||'[]');
-let curUser=JSON.parse(localStorage.getItem('elite_current')||'null');
-
-function showWelcome(){
- if(curUser){
-  document.getElementById('welcome').innerText='Welcome '+curUser.phone+' | Balance: KES '+(curUser.balance||0);
- }else{
-  document.getElementById('welcome').innerText='Login to bet - One PIN per number';
- }
+let curUser = null;
+let selectedBets = [];
+try{curUser = JSON.parse(localStorage.getItem('elite_current'));}catch(e){}
+function openLogin(){document.getElementById('loginModal').classList.add('show')}
+function openReg(){document.getElementById('regModal').classList.add('show')}
+function closeModals(){
+ document.getElementById('loginModal').classList.remove('show');
+ document.getElementById('regModal').classList.remove('show');
 }
-
-function loadMatches(){
- let data=JSON.parse(localStorage.getItem('elite_matches')||'[]');
- let div=document.getElementById('matches');
- if(data.length==0){
-  div.innerHTML='<div class="match-card"><p>No matches yet. Admin must POST REAL MATCH from admin.html</p></div>';
-  return;
- }
- let html='';
- data.forEach((m,i)=>{
-  html+=`<div class="match-card"><h3>${m.league||'League'} - ${m.time||''}</h3><b>${m.team1} vs ${m.team2}</b><div class="odds-row"><button onclick="addToSlip(${i},'1',${m.odd1})">${m.team1}<br>${m.odd1}</button><button onclick="addToSlip(${i},'X',${m.oddx})">Draw<br>${m.oddx}</button><button onclick="addToSlip(${i},'2',${m.odd2})">${m.team2}<br>${m.odd2}</button></div></div>`;
- });
- div.innerHTML=html;
-}
-
-function addToSlip(idx, type, odd){
- let m=JSON.parse(localStorage.getItem('elite_matches'))[idx];
- slip=[{match:m.team1+' vs '+m.team2, type, odd}];
- updateSlip();
-}
-
-function updateSlip(){
- if(slip.length==0){document.getElementById('betslip').style.display='none';return;}
- document.getElementById('betslip').style.display='block';
- document.getElementById('bc').innerText=slip.length;
- let total=slip.reduce((a,b)=>a*Number(b.odd),1);
- document.getElementById('odds').innerText='Odds: '+total.toFixed(2);
-}
-
-function clearSlip(){slip=[];updateSlip();}
-function openLogin(){document.getElementById('loginModal').style.display='flex';}
-function openReg(){document.getElementById('regModal').style.display='flex';}
-function closeModals(){document.getElementById('loginModal').style.display='none';document.getElementById('regModal').style.display='none';}
-
 function doReg(){
  let phone=document.getElementById('regPhone').value.trim();
  let pin=document.getElementById('regPin').value.trim();
  let msg=document.getElementById('regMsg');
- if(!phone||!pin){msg.innerText='Enter phone and PIN';return;}
- users=JSON.parse(localStorage.getItem('elite_users')||'[]');
- if(users.find(u=>u.phone==phone)){
-  msg.innerText='ERROR: This phone already registered! Use Login with your ONE PIN.';
-  return;
- }
- users.push({phone,pin,balance:0});
- localStorage.setItem('elite_users',JSON.stringify(users));
- msg.innerText='SUCCESS! Now Login with same PIN.';
- setTimeout(closeModals,1000);
-}
-
-function doLogin(){
- let phone=document.getElementById('loginPhone').value.trim();
- let pin=document.getElementById('loginPin').value.trim();
- let msg=document.getElementById('loginMsg');
- users=JSON.parse(localStorage.getItem('elite_users')||'[]');
- let u=users.find(u=>u.phone==phone);
- if(!u){msg.innerText='Phone NOT registered. Register first.';return;}
- if(u.pin!==pin){msg.innerText='WRONG PIN! Access DENIED. Use your one-time PIN.';return;}
- localStorage.setItem('elite_current',JSON.stringify(u));
- curUser=u;
- msg.innerText='Login success!';
- closeModals();
- showWelcome();
- if(phone=='0712345678' || phone=='admin'){localStorage.setItem('isAdmin','yes');localStorage.setItem('adminPhone',phone);location.href='admin.html';}
-}
-
-function placeBet(){
- if(!curUser){alert('Login first');openLogin();return;}
- let stake=Number(document.getElementById('stakeInput').value);
- if(!stake||stake<10){alert('Enter stake min 10');return;}
- let bets=JSON.parse(localStorage.getItem('elite_bets')||'[]');
- bets.push({user:curUser.phone, slip, stake, date:Date.now()});
- localStorage.setItem('elite_bets',JSON.stringify(bets));
- alert('Bet placed! Stake KES '+stake);
- clearSlip();
-}
-
-showWelcome();
-loadMatches();
-</script>
-</body>
-</html>
+ if(phone=='' || pin==''){msg.innerText='Fill phone and PIN!';return;}
+ if(phone.length<10){msg.innerText='Invalid phone!';return;}
+ if(pin.length<4){msg.innerText='PIN min 4 chars!';return;}
+ let users=[];
+ try{
