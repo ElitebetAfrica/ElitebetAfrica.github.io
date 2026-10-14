@@ -1,58 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ElitebetAfrica</title>
+<title>ElitebetAfrica V3 FIXED - Real Filters Working</title>
 <style>
-body{background:#0e0e0e;color:#fff;font-family:Arial;margin:0}
-.header{background:#1a1a1a;padding:10px;display:flex;justify-content:space-between;border-bottom:2px solid #ffcc00}
-.logo{color:#ffcc00;font-weight:bold}
-.bal{color:#00c853}
-.btn{padding:8px 10px;border:0;border-radius:6px;font-weight:bold}
-.btn-yellow{background:#ffcc00}
-.btn-green{background:#00c853;color:#fff}
-.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:99;justify-content:center;align-items:center}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#f5f5f5;padding-bottom:80px;color:#222}
+#header{background:#5b21b6;color:#fff;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50}
+.logo{font-weight:900;font-size:20px;font-style:italic}
+.logo span{font-weight:400;font-size:10px;display:block;font-style:normal}
+.btn-dep{background:#fff;color:#5b21b6;border:0;padding:7px 14px;border-radius:4px;font-weight:bold;font-size:13px}
+.btn-reg{background:#ffcc00;color:#000;border:0;padding:7px 12px;border-radius:4px;font-weight:bold;font-size:12px;margin-right:4px}
+.btn-bal{background:#00000033;border:1px solid #fff;color:#fff;padding:6px 10px;border-radius:20px;display:flex;gap:6px;font-size:13px;font-weight:bold}
+.nav-icons{display:flex;justify-content:space-around;background:#fff;padding:10px 0;border-bottom:1px solid #eee}
+.nav-i{text-align:center;font-size:11px;color:#333;cursor:pointer}.nav-i.active{color:#5b21b6}
+.h-tabs{display:flex;gap:8px;overflow-x:auto;padding:10px;background:#f5f5f5}
+.h-tab{background:#fff;border:1px solid #ddd;padding:10px 8px;border-radius:20px;font-weight:bold;font-size:11px;white-space:nowrap;min-width:95px;text-align:center;cursor:pointer}
+.h-tab.on{background:#5b21b6;color:#fff;border-color:#5b21b6}
+.sec{background:#fff;margin-top:8px}
+.sec-head{display:flex;gap:12px;padding:12px 10px;border-bottom:1px solid #eee;font-weight:bold;font-size:12px;overflow-x:auto;white-space:nowrap;align-items:center}
+.match-card{background:#fff;border-bottom:1px solid #eee;padding:10px}
+.teams{display:flex;justify-content:space-between;align-items:center;padding:8px 0}
+.team{text-align:center;width:30%;font-size:13px}
+.logo-circle{width:44px;height:44px;border-radius:50%;background:#eee;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold}
+.odds-row{display:flex;gap:6px}
+.odd-btn{flex:1;background:#f3e8ff;border:1px solid #d8b4fe;padding:10px 4px;border-radius:6px;text-align:center;cursor:pointer;display:flex;justify-content:space-between;font-size:13px}
+.betslip-float{position:fixed;bottom:80px;right:16px;background:#00c853;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 4px 12px rgba(0,0,0,.3);z-index:40;cursor:pointer}
+.count{position:absolute;top:-4px;right:-4px;background:#fff;color:#00c853;width:22px;height:22px;border-radius:50%;font-size:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;border:2px solid #00c853}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#1a1a1a;color:#aaa;display:flex;justify-content:space-around;padding:6px 0 4px;z-index:50;border-top:1px solid #333}
+.bn{text-align:center;font-size:10px;cursor:pointer;flex:1}.bn.active{color:#fff}
+#slipPanel{position:fixed;bottom:60px;left:0;right:0;background:#fff;border-top:2px solid #5b21b6;max-height:50vh;overflow:auto;display:none;z-index:45}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:100;justify-content:center;align-items:center;padding:15px}
 .modal.show{display:flex}
-.box{background:#222;padding:15px;border-radius:10px;width:90%;max-width:350px;border:1px solid #ffcc00}
-input{width:100%;padding:9px;margin:5px 0;background:#111;border:1px solid #444;color:#fff;border-radius:4px}
-.match{background:#1e1e1e;margin:8px;padding:10px;border-radius:8px;border-left:3px solid #ffcc00}
-.odd{display:inline-block;background:#2a2a2a;padding:8px 12px;border-radius:20px;margin:3px;border:1px solid #555}
-.odd.on{background:#00c853;color:#fff}
+.box{background:#fff;padding:18px;border-radius:8px;width:100%;max-width:380px;max-height:90vh;overflow:auto}
+.box h3{color:#5b21b6;margin-bottom:10px}
+.box input{width:100%;padding:11px;margin:6px 0;border:1px solid #ccc;border-radius:4px}
+.btn{padding:11px;border:0;border-radius:4px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px}
+.btn-purple{background:#5b21b6;color:#fff}.btn-yellow{background:#ffcc00;color:#000}.btn-green{background:#00c853;color:#fff}.btn-dark{background:#333;color:#fff}
+.stkBox{background:#5b21b6;color:#fff;padding:10px;border-radius:6px;text-align:center;display:none;margin:8px 0}
+.bar{height:6px;background:#fff;border-radius:3px;margin-top:6px;overflow:hidden}.bar div{height:100%;background:#ffcc00;width:0%;transition:width.3s}
+.aviatorBox{background:linear-gradient(135deg,#1a0033,#5b21b6);color:#fff;padding:14px;border-radius:10px;text-align:center;margin:10px}
+.live-dot{width:8px;height:8px;background:#00ff00;border-radius:50%;display:inline-block;animation:blink 1s infinite}@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
 </style>
 </head>
 <body>
-<div class="header">
-<div><div class="logo">ElitebetAfrica PRO</div><div class="bal" id="bal">KES 0</div></div>
-<div>
-<button id="lb" class="btn btn-yellow" onclick="openM('lM')">Login</button>
-<button id="rb" class="btn btn-green" onclick="openM('rM')">Reg</button>
-<button id="ab" class="btn" style="background:orange;display:none" onclick="alert('Admin Panel - Users:'+JSON.parse(localStorage.getItem('elite_users')||'[]').length)">Admin</button>
-<button id="ob" class="btn" style="background:#555;color:#fff;display:none" onclick="logO()">Logout</button>
+<div id="header">
+<div class="logo">ElitebetAfrica<span>BEST ODDS PURPLE <span id="liveIndicator"><span class="live-dot"></span> LIVE V3 FIXED</span></span></div>
+<div style="display:flex;gap:6px;align-items:center">
+<button class="btn-reg" id="regBtn" onclick="openM('rM')">Register</button>
+<button class="btn-dep" onclick="openM('dM')">Deposit</button>
+<div class="btn-bal" onclick="openM('lM')">👤 <span id="balHead">KES 0.00</span></div>
 </div>
 </div>
-<div id="welcome" style="text-align:center;padding:6px;color:#ffcc00;background:#1a1a1a">Login to Bet!</div>
-<div class="match"><b>Man City vs Arsenal</b><br><span class="odd" id="o1" onclick="pick(1,1,1.85,'ManCity')">ManCity 1.85</span><span class="odd" id="o2" onclick="pick(1,2,3.4,'Draw')">Draw 3.40</span><span class="odd" id="o3" onclick="pick(1,3,4.2,'Arsenal')">Arsenal 4.20</span></div>
-<div class="match"><b>Gor Mahia vs AFC Leopards</b><br><span class="odd" id="o4" onclick="pick(2,1,2.1,'Gor')">Gor 2.10</span><span class="odd" id="o5" onclick="pick(2,2,3,'Draw')">Draw 3.00</span><span class="odd" id="o6" onclick="pick(2,3,3.5,'AFC')">AFC 3.50</span></div>
-<div class="match"><b>Lakers vs Warriors 🏀</b><br><span class="odd" id="o7" onclick="pick(3,1,1.9,'Lakers')">Lakers 1.90</span><span class="odd" id="o8" onclick="pick(3,2,3.5,'Draw')">Draw 3.50</span><span class="odd" id="o9" onclick="pick(3,3,2.1,'Warriors')">Warriors 2.10</span></div>
-<div id="slip" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#111;border-top:2px solid #ffcc00;padding:8px"><div id="items"></div><div>Games:<b id="c">0</b> Odds:<b id="od">1.0</b> Win:<b id="w">0</b></div><div style="display:flex;gap:4px"><input id="st" type="number" placeholder="Stake" oninput="calc()" style="flex:1;margin:0"><button class="btn btn-green" onclick="bet()">Place Bet</button></div></div>
-<div class="modal" id="lM"><div class="box"><h3>Login</h3><input id="lp" placeholder="Phone 0112678036"><input id="lk" type="password" placeholder="PIN"><div id="lm" style="color:red;font-size:12px"></div><button class="btn btn-yellow" style="width:100%;margin-top:6px" onclick="doL()">Login</button><button class="btn" style="width:100%;margin-top:4px;background:#333;color:#fff" onclick="closeM()">Cancel</button></div></div>
-<div class="modal" id="rM"><div class="box"><h3>Register</h3><input id="rp" placeholder="Phone"><input id="rk" type="password" placeholder="PIN"><div id="rm" style="color:red;font-size:12px"></div><button class="btn btn-green" style="width:100%;margin-top:6px" onclick="doR()">Register +100 Bonus</button><button class="btn" style="width:100%;margin-top:4px;background:#333;color:#fff" onclick="closeM()">Cancel</button></div></div>
+<div class="nav-icons">
+<div class="nav-i active" onclick="switchMain('foot')">⚽<br>All Sports</div>
+<div class="nav-i" onclick="switchMain('live')">📺<br>Live</div>
+<div class="nav-i" onclick="openM('codeM')">🔗<br>Load Code</div>
+<div class="nav-i" onclick="switchMain('avi')">✈️<br>Aviator</div>
+<div class="nav-i" onclick="openM('aM')">•••<br>More</div>
+</div>
+<div class="h-tabs" id="timeFilters">
+<div class="h-tab on" onclick="filterTime('today',this)">TODAY</div>
+<div class="h-tab" onclick="filterTime('2hrs',this)">NEXT 2 HRS</div>
+<div class="h-tab" onclick="filterTime('3hrs',this)">NEXT 3 HRS</div>
+<div class="h-tab" onclick="filterTime('tomorrow',this)">TOMORROW</div>
+<div class="h-tab" onclick="filterTime('champions',this)">CHAMPIONS LEAGUE</div>
+<div class="h-tab" onclick="filterTime('all',this)">ALL GAMES</div>
+</div>
+<div class="sec" id="sec-foot">
+<div class="sec-head"><span style="color:#5b21b6">🔥 REAL GAMES - TIME FILTER FIXED</span><span style="color:#00c853" id="autoUpdateStatus">● Auto-updating...</span><span id="filterInfo" style="background:#ffcc00;color:#000;padding:2px 6px;border-radius:10px;font-size:10px">TODAY</span></div>
+<div id="realMatches"><div style="text-align:center;padding:20px;color:#5b21b6">🔄 Loading REAL live matches...</div></div>
+</div>
+<div class="sec" id="sec-avi" style="display:none"><div class="aviatorBox"><div style="font-size:40px">✈️</div><div style="font-size:36px;color:#ffcc00;font-weight:bold" id="aviMult">1.00x</div><div id="aviStatus" style="color:#00ff88;margin:6px 0">Aviator - Fly!</div><div style="display:flex;gap:6px;margin-top:10px"><input id="aviStake" type="number" placeholder="Stake 100" style="flex:1;padding:10px;border-radius:4px;border:0"><button id="aviBtn" class="btn-purple" style="flex:1;width:auto;margin:0" onclick="aviPlay()">BET & FLY</button></div><button onclick="aviCash()" id="cashBtn" disabled style="width:100%;margin-top:8px;padding:10px;background:#333;color:#fff;border:0;border-radius:4px;font-weight:bold">CASHOUT</button></div></div>
+<div class="sec" id="sec-live" style="display:none"><div style="background:#5b21b6;color:#fff;padding:10px">Live</div><div id="liveGamesBox" style="background:#2a2a2a;color:#fff;padding:10px">Live games</div></div>
+<div class="betslip-float" onclick="toggleSlip()">📋<span class="count" id="slipCount">0</span></div>
+<div id="slipPanel"><div style="padding:10px"><div id="betItems" style="font-size:13px;max-height:120px;overflow:auto"></div><div style="display:flex;justify-content:space-between;margin:8px 0;font-size:13px"><span>Games: <b id="count">0</b></span><span>Odds: <b id="totalOdds">1.00</b></span><span>Win: <b id="potential" style="color:#5b21b6">KES 0</b></span></div><div style="display:flex;gap:6px"><input id="stake" type="number" placeholder="Stake Min 50" oninput="calcW()" style="flex:1;padding:10px;border:1px solid #ccc;border-radius:4px"><button style="background:#5b21b6;color:#fff;padding:10px 16px;border:0;border-radius:4px;font-weight:bold" onclick="placeB()">Place Bet</button></div></div></div>
+<div class="bottom-nav"><div class="bn active" onclick="switchMain('foot')">Home</div><div class="bn" onclick="openM('aM')">AZ Menu</div><div class="bn" onclick="switchMain('avi')">Games</div><div class="bn" onclick="alert('Bets:'+bets.length)">Open Bets</div><div class="bn" onclick="openM('lM')">Me</div></div>
+<div class="modal" id="lM"><div class="box"><h3>Login 💜</h3><input id="lP" placeholder="Phone 0112678036"><input id="lK" type="password" placeholder="PIN"><div id="lMsg" style="color:red;font-size:12px"></div><button class="btn btn-purple" onclick="doL()">Login</button><button class="btn btn-yellow" onclick="closeM();openM('rM')">Register</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="rM"><div class="box"><h3>Register - KES 100 Bonus 💜</h3><input id="rP" placeholder="Phone"><input id="rK" type="password" placeholder="PIN"><div id="rMsg" style="color:red;font-size:12px"></div><button class="btn btn-green" onclick="doR()">Register & Bonus</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="dM"><div class="box"><h3>Deposit M-Pesa 💜</h3><input id="dPh" placeholder="M-Pesa No"><input id="dAm" type="number" placeholder="Amount Min 50"><div id="dMsg" style="font-size:12px"></div><div class="stkBox" id="stkBox"><div>STK Sent!</div><div class="bar"><div id="stkBar"></div></div><div id="stkTimer">30s</div></div><button class="btn btn-purple" id="dBtn" onclick="doD()">STK Push</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="wM"><div class="box"><h3>Withdraw</h3><div>Bal: <b id="wBal">KES 0</b></div><input id="wPh" placeholder="M-Pesa No"><input id="wAm" type="number" placeholder="Min 100"><div id="wMsg" style="font-size:12px"></div><button class="btn btn-purple" onclick="doW()">Withdraw</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
+<div class="modal" id="aM"><div class="box"><h3>Admin 💜</h3><div>Users: <b id="aUsers">0</b> | Total: <b id="aBal">KES 0</b></div><div id="aList" style="max-height:300px;overflow:auto;margin-top:8px"></div><button class="btn btn-dark" onclick="closeM()">Close</button></div></div>
+<div class="modal" id="codeM"><div class="box"><h3>Load Code</h3><input id="codeIn" placeholder="SPORTY100"><div id="codeMsg" style="font-size:12px"></div><button class="btn btn-purple" onclick="loadCode()">Load</button><button class="btn btn-dark" onclick="closeM()">Cancel</button></div></div>
 <script>
 var cur=null;try{cur=JSON.parse(localStorage.getItem('elite_current'))}catch(e){}
 var bets=[];var ADMIN='0112678036';
-function openM(id){document.getElementById(id).className='modal show'}
-function closeM(){document.getElementById('lM').className='modal';document.getElementById('rM').className='modal'}
-function doR(){var p=document.getElementById('rp').value.trim();var k=document.getElementById('rk').value.trim();if(!p||!k){document.getElementById('rm').innerText='Fill all';return}var u=JSON.parse(localStorage.getItem('elite_users')||'[]');for(var i=0;i<u.length;i++){if(u[i].phone==p){document.getElementById('rm').innerText='Exists, login';return}}u.push({phone:p,pin:k,balance:100});localStorage.setItem('elite_users',JSON.stringify(u));cur={phone:p,pin:k,balance:100};localStorage.setItem('elite_current',JSON.stringify(cur));closeM();show();}
-function doL(){var p=document.getElementById('lp').value.replace(/[^0-9]/g,'');var k=document.getElementById('lk').value.trim();if(p.indexOf('112678036')>=0){cur={phone:ADMIN,pin:k,balance:999999};localStorage.setItem('elite_current',JSON.stringify(cur));closeM();show();alert('WELCOME BOSS!');return}var u=JSON.parse(localStorage.getItem('elite_users')||'[]');var f=null;for(var i=0;i<u.length;i++){if(u[i].phone.replace(/[^0-9]/g,'')==p){f=u[i];break}}if(!f){document.getElementById('lm').innerText='Not registered';return}if(f.pin!=k){document.getElementById('lm').innerText='Wrong PIN';return}cur=f;localStorage.setItem('elite_current',JSON.stringify(f));closeM();show();}
-function show(){var lb=document.getElementById('lb');var rb=document.getElementById('rb');var ab=document.getElementById('ab');var ob=document.getElementById('ob');var bal=document.getElementById('bal');var wel=document.getElementById('welcome');if(cur){bal.innerText='KES '+Math.floor(cur.balance);wel.innerText='Welcome '+cur.phone;lb.style.display='none';rb.style.display='none';ob.style.display='inline-block';ab.style.display=cur.phone==ADMIN?'inline-block':'none'}else{bal.innerText='KES 0';wel.innerText='Login to Bet!';lb.style.display='inline-block';rb.style.display='inline-block';ob.style.display='none';ab.style.display='none'}}
-function logO(){localStorage.removeItem('elite_current');cur=null;show();}
-function pick(mid,ch,odd,team){if(!cur){openM('lM');return}var idx=-1;for(var i=0;i<bets.length;i++){if(bets[i].mid==mid){idx=i;break}}if(idx>=0){var same=bets[idx].ch==ch;bets.splice(idx,1);if(!same){bets.push({mid:mid,ch:ch,odd:odd,team:team})}}else{bets.push({mid:mid,ch:ch,odd:odd,team:team})}render();}
-function render(){for(var i=1;i<=9;i++){var e=document.getElementById('o'+i);if(e)e.className='odd'}var slip=document.getElementById('slip');var box=document.getElementById('items');if(bets.length==0){slip.style.display='none';return}slip.style.display='block';var h='';var total=1;for(var i=0;i<bets.length;i++){var b=bets[i];h+=b.team+' @'+b.odd+' <span style="color:red" onclick="rem('+b.mid+')">[x]</span><br>';total*=b.odd;var id='o'+((b.mid-1)*3+b.ch);var el=document.getElementById(id);if(el)el.className='odd on';}box.innerHTML=h;document.getElementById('c').innerText=bets.length;document.getElementById('od').innerText=total.toFixed(2);calc();}
-function rem(mid){var n=[];for(var i=0;i<bets.length;i++){if(bets[i].mid!=mid)n.push(bets[i])}bets=n;render();}
-function calc(){var s=parseFloat(document.getElementById('st').value||0);var tot=1;for(var i=0;i<bets.length;i++){tot*=bets[i].odd}document.getElementById('w').innerText='KES '+Math.floor(s*tot)}
-function bet(){var s=parseFloat(document.getElementById('st').value||0);if(bets.length==0||s<=0){alert('Select games & stake');return}var tot=1;for(var i=0;i<bets.length;i++){tot*=bets[i].odd}if(cur.phone!=ADMIN&&cur.balance<s){alert('Low balance: '+Math.floor(cur.balance));return}if(cur.phone!=ADMIN)cur.balance-=s;localStorage.setItem('elite_current',JSON.stringify(cur));var u=JSON.parse(localStorage.getItem('elite_users')||'[]');for(var i=0;i<u.length;i++){if(u[i].phone==cur.phone){u[i].balance=cur.balance;break}}localStorage.setItem('elite_users',JSON.stringify(u));alert('BET PLACED! Win: KES '+Math.floor(s*tot));bets=[];document.getElementById('st').value='';render();show();}
-show();
-</script>
-</body>
-</html>
+var allRealEvents=[];var currentFilter='today';
+function switchMain(t){document.getElementById('sec-foot').style.display=t=='foot'?'block':'none';document.getElementById('sec-avi').style.display=t=='avi'?'block':'none';document.getElementById('sec-live').style.display=t=='live'?'block':'none';}
+function openM(id){document.getElementById(id).className='modal show';if(id=='wM'){document.getElementById('wBal').innerText='KES '+(cur?Math.floor(cur.balance):0);document.getElementById('wPh').value=cur?cur.phone:''}if(id=='dM'){document.getElementById('dPh').value=cur?cur.phone:''}if(id=='aM'){loadAdmin()}}
+function closeM(){var ms=document.getElementsByClassName('modal');for(var i=0;i<ms.length;i++){ms[i].className='modal'}}
+function doR(){var p=document.getElementById('rP').value.trim();var k=document.getElementById('rK').value.trim();if(!p||!
