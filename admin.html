@@ -2,32 +2,85 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Admin - ElitebetAfrica</title>
+<title>ADMIN PRO - ElitebetAfrica</title>
 <style>
-body{background:#111;color:#fff;font-family:Arial;padding:15px}
-.card{background:#222;padding:15px;margin:12px 0;border-radius:10px;border-left:5px solid #ffcc00}
-button{width:100%;padding:14px;background:#ffcc00;border:none;border-radius:8px;font-weight:bold;margin-top:10px}
+body{background:#0a0a0a;color:#fff;font-family:Arial;padding:12px;margin:0}
+.card{background:#1e1e1e;padding:14px;margin:10px 0;border-radius:10px;border-left:4px solid #ffcc00}
+input{width:100%;padding:12px;margin:6px 0;border-radius:6px;border:none;background:#333;color:#fff;box-sizing:border-box}
+button{width:100%;padding:13px;background:#ffcc00;border:none;border-radius:8px;font-weight:bold;margin:6px 0}
+.match-item{background:#2a2a2a;padding:10px;margin:6px 0;border-radius:6px;display:flex;justify-content:space-between}
 </style>
 </head>
 <body>
-<h2>ElitebetAfrica - BOSS ADMIN</h2>
-<p>Admin: 0112678036</p>
+<h2>ElitebetAfrica - BOSS ADMIN PRO</h2>
+<p id="adminPhone"></p>
 <div class="card">
-<h3>Dashboard</h3>
-<p>Total Users: 12</p>
-<p>Total Bets Today: 47</p>
-<p>Total Deposits: KES 18,500</p>
+<h3>📊 LIVE Dashboard</h3>
+<p>Total Users: <span id="uCount">0</span></p>
+<p>Total Bets: <span id="bCount">0</span></p>
+<p>Total Deposits: KES <span id="dCount">0</span></p>
 </div>
 <div class="card">
-<h3>Latest Deposits</h3>
-<p>0112***678 - KES 500</p>
+<h3>⚽ POST REAL MATCH</h3>
+<input id="league" placeholder="League e.g. Premier League">
+<input id="team1" placeholder="Home Team">
+<input id="team2" placeholder="Away Team">
+<input id="time" type="time">
+<input id="odd1" placeholder="Odd Home e.g. 2.10">
+<input id="oddx" placeholder="Odd Draw e.g. 3.20">
+<input id="odd2" placeholder="Odd Away e.g. 2.80">
+<button onclick="addMatch()">POST MATCH TO SITE</button>
 </div>
-<button onclick="window.location.href='index.html'">BACK TO SITE</button>
+<div class="card">
+<h3>📋 Current Matches</h3>
+<div id="matchList"></div>
+</div>
+<div class="card">
+<h3>👥 Registered Users</h3>
+<div id="userList"></div>
+</div>
+<button style="background:#fff" onclick="location.href='index.html'">BACK TO SITE</button>
+<button style="background:red;color:white" onclick="logout()">LOGOUT</button>
 <script>
-if(localStorage.getItem('isAdmin')!=='yes'){
-alert('Login as admin first');
-window.location.href='index.html';
+if(localStorage.getItem('isAdmin')!=='yes'){alert('Login as admin first');location.href='index.html';}
+document.getElementById('adminPhone').innerText='Admin: '+localStorage.getItem('adminPhone');
+function loadAll(){
+ let users=JSON.parse(localStorage.getItem('elite_users')||'[]');
+ let bets=JSON.parse(localStorage.getItem('elite_bets')||'[]');
+ let deposits=JSON.parse(localStorage.getItem('elite_deposits')||'[]');
+ document.getElementById('uCount').innerText=users.length;
+ document.getElementById('bCount').innerText=bets.length;
+ let total=deposits.reduce((a,b)=>a+Number(b.amount||0),0);
+ document.getElementById('dCount').innerText=total;
+ let html=''; users.forEach(u=>{html+=`<div class="match-item"><span>${u.phone} - PIN: ${u.pin}</span><span>KES ${u.balance||0}</span></div>`});
+ document.getElementById('userList').innerHTML=html||'No users yet';
+ let matches=JSON.parse(localStorage.getItem('elite_matches')||'[]');
+ let mHtml=''; matches.forEach((m,i)=>{mHtml+=`<div class="match-item"><span>${m.league}<br><b>${m.team1} vs ${m.team2}</b><br>${m.odd1} / ${m.oddx} / ${m.odd2}</span><button style="width:60px;background:red;color:white" onclick="delMatch(${i})">X</button></div>`});
+ document.getElementById('matchList').innerHTML=mHtml||'No matches posted';
 }
+function addMatch(){
+ let league=document.getElementById('league').value;
+ let team1=document.getElementById('team1').value;
+ let team2=document.getElementById('team2').value;
+ let time=document.getElementById('time').value;
+ let odd1=document.getElementById('odd1').value;
+ let oddx=document.getElementById('oddx').value;
+ let odd2=document.getElementById('odd2').value;
+ if(!team1||!team2){alert('Enter teams');return;}
+ let matches=JSON.parse(localStorage.getItem('elite_matches')||'[]');
+ matches.push({league,team1,team2,time,odd1,oddx,odd2});
+ localStorage.setItem('elite_matches',JSON.stringify(matches));
+ alert('Match Posted!');
+ loadAll();
+}
+function delMatch(i){
+ let matches=JSON.parse(localStorage.getItem('elite_matches')||'[]');
+ matches.splice(i,1);
+ localStorage.setItem('elite_matches',JSON.stringify(matches));
+ loadAll();
+}
+function logout(){localStorage.removeItem('isAdmin');location.href='index.html';}
+loadAll();
 </script>
 </body>
 </html>
