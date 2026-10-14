@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - ElitebetAfrica</title>
+<style>
+body{background:#111;color:#fff;font-family:Arial;padding:15px}
+.card{background:#222;padding:15px;margin:12px 0;border-radius:10px;border-left:5px solid #ffcc00}
+button{width:100%;padding:14px;background:#ffcc00;border:none;border-radius:8px;font-weight:bold;margin-top:10px}
+</style>
+</head>
+<body>
+<h2>ElitebetAfrica - BOSS ADMIN</h2>
+<p>Admin: 0112678036</p>
+<div class="card">
+<h3>Dashboard</h3>
+<p>Total Users: 12</p>
+<p>Total Bets Today: 47</p>
+<p>Total Deposits: KES 18,500</p>
+</div>
+<div class="card">
+<h3>Latest Deposits</h3>
+<p>0112***678 - KES 500</p>
+</div>
+<button onclick="window.location.href='index.html'">BACK TO SITE</button>
+<script>
+if(localStorage.getItem('isAdmin')!=='yes'){
+alert('Login as admin first');
+window.location.href='index.html';
+}
+</script>
+</body>
+</html>
