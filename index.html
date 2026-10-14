@@ -2,20 +2,19 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ElitebetAfrica - Kenya's Best</title>
+<title>ElitebetAfrica</title>
 <style>
-body{background:#121212;color:#fff;font-family:Arial;margin:0;padding:0}
-.header{background:#1a1a1a;padding:10px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+body{background:#121212;color:#fff;font-family:Arial;margin:0}
+.header{background:#1a1a1a;padding:10px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0}
 .logo{color:#ffcc00;font-weight:bold;font-size:20px}
-.btn{padding:8px 14px;border:none;border-radius:5px;font-weight:bold;cursor:pointer}
+.btn{padding:8px 14px;border:none;border-radius:5px;font-weight:bold}
 .btn-yellow{background:#ffcc00;color:#000}
 .btn-green{background:#00a651;color:#fff}
-.btn-dark{background:#333;color:#fff;margin:2px}
 .match-card{background:#1e1e1e;margin:10px;padding:12px;border-radius:8px}
-.match-card h3{color:#ffcc00;margin:0 0 10px 0;font-size:16px}
+.match-card h3{color:#ffcc00;margin:0 0 10px 0}
 .odds-row{display:flex;gap:6px}
 .odds-row button{flex:1;padding:12px;background:#2a2a2a;color:#fff;border:1px solid #444;border-radius:5px}
-.odds-row button.selected{background:#ffcc00;color:#000;font-weight:bold;border-color:#ffcc00}
+.odds-row button.selected{background:#ffcc00;color:#000;font-weight:bold}
 #betslip{background:#1a1a1a;border-top:3px solid #ffcc00;padding:15px;position:sticky;bottom:0;display:none}
 #stakeInput{width:80px;padding:5px;border-radius:4px;border:none}
 .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:200}
@@ -24,7 +23,6 @@ body{background:#121212;color:#fff;font-family:Arial;margin:0;padding:0}
 </style>
 </head>
 <body>
-
 <div class="header">
 <div class="logo">ElitebetAfrica</div>
 <div>
@@ -32,94 +30,68 @@ body{background:#121212;color:#fff;font-family:Arial;margin:0;padding:0}
 <button class="btn btn-green" onclick="openModal('regModal')">REGISTER</button>
 </div>
 </div>
-
 <div style="padding:10px;text-align:center">
 <button class="btn btn-green" style="width:95%" onclick="openModal('depositModal')">💰 DEPOSIT via M-Pesa</button>
 </div>
-
-<!-- MATCHES -->
 <div id="matches"></div>
-
-<!-- BETSLIP -->
 <div id="betslip">
-<div id="betslipText" style="font-size:14px;white-space:pre-line"></div>
+<div id="betslipText" style="white-space:pre-line;font-size:14px"></div>
 <div style="margin-top:10px">
 Stake: <input type="number" id="stakeInput" value="100" oninput="updateBetslip()"> 
 Odds: <span id="oddsDisplay">1.00</span><br>
-Potential Win: <span id="winDisplay">KES 0</span>
+Win: <span id="winDisplay">KES 0</span>
 </div>
 <button class="btn btn-yellow" style="width:100%;margin-top:10px;padding:15px" onclick="placeBet()">PLACE BET</button>
 </div>
 
-<!-- MODALS -->
-<div id="loginModal" class="modal" onclick="closeModal('loginModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Login</h3><input placeholder="Phone Number"><input type="password" placeholder="Password"><button class="btn btn-yellow" style="width:100%">LOGIN</button><p onclick="closeModal('loginModal')" style="text-align:center;margin-top:10px">Close</p></div></div>
-<div id="regModal" class="modal" onclick="closeModal('regModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Register</h3><input placeholder="Phone Number"><input placeholder="Full Name"><input type="password" placeholder="Password"><button class="btn btn-green" style="width:100%">CREATE ACCOUNT</button><p onclick="closeModal('regModal')" style="text-align:center;margin-top:10px">Close</p></div></div>
-<div id="depositModal" class="modal" onclick="closeModal('depositModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Deposit via M-Pesa</h3><p>Paybill: <b>123456</b><br>Account: <b>ELITEBET</b></p><input placeholder="M-Pesa Code"><input placeholder="Amount"><button class="btn btn-green" style="width:100%">CONFIRM DEPOSIT</button><p onclick="closeModal('depositModal')" style="text-align:center;margin-top:10px">Close</p></div></div>
+<div id="loginModal" class="modal" onclick="closeModal('loginModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Login</h3><input id="loginPhone" placeholder="Phone e.g. 0112678036"><input id="loginPass" type="password" placeholder="Password"><button class="btn btn-yellow" style="width:100%" onclick="handleLogin()">LOGIN</button><p onclick="closeModal('loginModal')" style="text-align:center">Close</p></div></div>
+<div id="regModal" class="modal" onclick="closeModal('regModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Register</h3><input placeholder="Phone"><input placeholder="Name"><input type="password" placeholder="Password"><button class="btn btn-green" style="width:100%" onclick="handleRegister()">CREATE</button><p onclick="closeModal('regModal')" style="text-align:center">Close</p></div></div>
+<div id="depositModal" class="modal" onclick="closeModal('depositModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Deposit M-Pesa</h3><p>Paybill: 123456 Acc: ELITEBET</p><input placeholder="M-Pesa Code"><input placeholder="Amount"><button class="btn btn-green" style="width:100%">CONFIRM</button><p onclick="closeModal('depositModal')" style="text-align:center">Close</p></div></div>
 
 <script>
-const games = [
-["Arsenal vs Chelsea","2.8","3.1","2.5"],
-["Man Utd vs Liverpool","2.5","3.2","2.9"],
-["Barcelona vs Real Madrid","2.1","3.5","3.2"],
-["Bayern vs Dortmund","1.9","3.6","3.8"],
-["PSG vs Man City","2.4","3.3","2.8"]
-];
-
+const games = [["Arsenal vs Chelsea","2.8","3.1","2.5"],["Man Utd vs Liverpool","2.5","3.2","2.9"],["Barcelona vs Real Madrid","2.1","3.5","3.2"],["Bayern vs Dortmund","1.9","3.6","3.8"],["PSG vs Man City","2.4","3.3","2.8"]];
 const container = document.getElementById('matches');
 games.forEach(g=>{
- let div = document.createElement('div');
- div.className='match-card';
- div.innerHTML = `<h3>${g[0]}</h3><div class="odds-row">
- <button onclick="selectOdd(this)">1 ${g[1]}</button>
- <button onclick="selectOdd(this)">X ${g[2]}</button>
- <button onclick="selectOdd(this)">2 ${g[3]}</button>
- </div>`;
+ let div=document.createElement('div');div.className='match-card';
+ div.innerHTML=`<h3>${g[0]}</h3><div class="odds-row"><button onclick="selectOdd(this)">1 ${g[1]}</button><button onclick="selectOdd(this)">X ${g[2]}</button><button onclick="selectOdd(this)">2 ${g[3]}</button></div>`;
  container.appendChild(div);
 });
-
 function selectOdd(btn){
- let row = btn.parentElement;
- if(btn.classList.contains('selected')){
-   btn.classList.remove('selected');
- } else {
-   row.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
-   btn.classList.add('selected');
- }
+ let row=btn.parentElement;
+ if(btn.classList.contains('selected')){btn.classList.remove('selected');}else{row.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));btn.classList.add('selected');}
  updateBetslip();
 }
-
 function updateBetslip(){
- let text="";
- let total=1;
- let count=0;
+ let text="";let total=1;let count=0;
  document.querySelectorAll('.match-card').forEach(card=>{
-   let sel = card.querySelector('.selected');
-   if(sel){
-     let match = card.querySelector('h3').innerText;
-     let odds = parseFloat(sel.innerText.split(' ').pop());
-     text += `${match} @ ${odds}\n`;
-     total *= odds;
-     count++;
-   }
+   let sel=card.querySelector('.selected');
+   if(sel){let match=card.querySelector('h3').innerText;let odds=parseFloat(sel.innerText.split(' ').pop());text+=`${match} @ ${odds}\n`;total*=odds;count++;}
  });
- let stake = parseFloat(document.getElementById('stakeInput').value)||0;
- let win = total*stake;
- let slip = document.getElementById('betslip');
- if(count>0){
-   slip.style.display='block';
-   document.getElementById('betslipText').innerText=text;
-   document.getElementById('oddsDisplay').innerText=total.toFixed(2)+` (x${count})`;
-   document.getElementById('winDisplay').innerText=`KES ${win.toFixed(2)}`;
- } else {
-   slip.style.display='none';
- }
+ let stake=parseFloat(document.getElementById('stakeInput').value)||0;
+ let win=total*stake;
+ let slip=document.getElementById('betslip');
+ if(count>0){slip.style.display='block';document.getElementById('betslipText').innerText=text;document.getElementById('oddsDisplay').innerText=total.toFixed(2)+` (x${count})`;document.getElementById('winDisplay').innerText=`KES ${win.toFixed(2)}`;}else{slip.style.display='none';}
 }
-
-function placeBet(){
- alert('Bet Placed! (Demo) - Connect M-Pesa API later');
-}
+function placeBet(){alert('Bet Placed Demo');}
 function openModal(id){document.getElementById(id).style.display='flex';}
 function closeModal(id){document.getElementById(id).style.display='none';}
+
+function handleLogin(){
+ let phone=document.getElementById('loginPhone').value.trim();
+ let pass=document.getElementById('loginPass').value.trim();
+ if(phone==="0112678036" && pass==="Sportybet1"){
+   alert("Welcome Boss Admin!");
+   localStorage.setItem('isAdmin','yes');
+   window.location.href="admin.html";
+   return;
+ }
+ alert("Welcome Player "+phone);
+ closeModal('loginModal');
+}
+function handleRegister(){
+ alert("Account Created!");
+ closeModal('regModal');
+}
 </script>
 </body>
 </html>
