@@ -1,75 +1,125 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ElitebetAfrica - Smart Trading Africa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ElitebetAfrica - Kenya's Best</title>
 <style>
-  body{margin:0;font-family:Inter,Arial;background:#0a0f1c;color:white}
-  .nav{display:flex;justify-content:space-between;padding:18px 6%;background:#0f172a;align-items:center}
-  .logo{font-weight:800;font-size:22px;color:#22c55e} .logo span{color:white}
-  .btn{background:#22c55e;color:#000;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:700}
-  .hero{padding:60px 6%;display:flex;flex-wrap:wrap;gap:30px;align-items:center}
-  .hero h1{font-size:38px;line-height:1.1;margin:0}
-  .hero p{color:#94a3b8;font-size:18px}
-  .card{background:#111d33;padding:18px;border-radius:12px;margin-top:20px}
+body{background:#121212;color:#fff;font-family:Arial;margin:0;padding:0}
+.header{background:#1a1a1a;padding:10px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo{color:#ffcc00;font-weight:bold;font-size:20px}
+.btn{padding:8px 14px;border:none;border-radius:5px;font-weight:bold;cursor:pointer}
+.btn-yellow{background:#ffcc00;color:#000}
+.btn-green{background:#00a651;color:#fff}
+.btn-dark{background:#333;color:#fff;margin:2px}
+.match-card{background:#1e1e1e;margin:10px;padding:12px;border-radius:8px}
+.match-card h3{color:#ffcc00;margin:0 0 10px 0;font-size:16px}
+.odds-row{display:flex;gap:6px}
+.odds-row button{flex:1;padding:12px;background:#2a2a2a;color:#fff;border:1px solid #444;border-radius:5px}
+.odds-row button.selected{background:#ffcc00;color:#000;font-weight:bold;border-color:#ffcc00}
+#betslip{background:#1a1a1a;border-top:3px solid #ffcc00;padding:15px;position:sticky;bottom:0;display:none}
+#stakeInput{width:80px;padding:5px;border-radius:4px;border:none}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;z-index:200}
+.modal-box{background:#222;padding:20px;border-radius:10px;width:85%;max-width:350px}
+.modal-box input{width:100%;padding:10px;margin:8px 0;border-radius:5px;border:none}
 </style>
 </head>
 <body>
-<div class="nav">
-  <div class="logo">Elitebet<span>Africa</span></div>
-  <a class="btn" href="https://deriv.com/?ref=YOURCODE">Start Trading</a>
+
+<div class="header">
+<div class="logo">ElitebetAfrica</div>
+<div>
+<button class="btn btn-yellow" onclick="openModal('loginModal')">LOGIN</button>
+<button class="btn btn-green" onclick="openModal('regModal')">REGISTER</button>
+</div>
 </div>
 
-<div class="hero">
-  <div style="flex:1;min-width:300px">
-    <h1>Trade Rise & Fall with M-Pesa — Learn First, Earn Later</h1>
-    <p>ElitebetAfrica is an education & affiliate site. We teach how markets work. Trading is done on regulated broker Deriv.com (licensed since 1999). No fake profits.</p>
-    <br>
-    <a class="btn" href="https://deriv.com/?ref=YOURCODE">Open Free Demo Account</a>
-    <div class="card">
-      <b>✓ M-Pesa Accepted on Broker</b> <br>
-      <b>✓ Free Demo $10,000</b> <br>
-      <b>✓ How it Works Video</b>
-    </div>
-  </div>    <div style="flex:1;min-width:300px">
-      <div class="card">
-        <h3 style="margin-top:0">How It Works (3 steps)</h3>
-        <p>1. Click "Open Demo" — goes to Deriv.com (regulated broker)<br>
-        2. Learn with $10,000 free demo — no M-Pesa needed<br>
-        3. When ready, deposit via M-Pesa on Deriv, not on us</p>
-        <p style="font-size:13px;color:#94a3b8">We are NOT the broker. We are affiliate educators. We never hold your money.</p>
-      </div>
+<div style="padding:10px;text-align:center">
+<button class="btn btn-green" style="width:95%" onclick="openModal('depositModal')">💰 DEPOSIT via M-Pesa</button>
+</div>
 
-      <div class="card">
-        <h3 style="margin-top:0">Logo Fix — How to make your logo show</h3>
-        <p style="font-size:14px;color:#94a3b8">You had issue with logo.png not showing. Do this:</p>
-        <p style="font-size:14px">1. Rename your logo to <b>logo.png</b><br>
-        2. Put it in SAME folder as index.html<br>
-        3. Replace the text logo above with:<br>
-        &lt;img src="logo.png" style="height:36px"&gt;<br><br>
-        If still not showing, use: logo.jpg and change src to logo.jpg</p>
-      </div>
-    </div>
-  </div>
+<!-- MATCHES -->
+<div id="matches"></div>
 
-  <div style="padding:20px 6%">
-    <div class="card" style="border-left:4px solid #22c55e">
-      <b>⚠️ Risk Warning (Required by law):</b> Trading is risky. You can lose money. 70% of retail traders lose. Only trade with money you can afford to lose. ElitebetAfrica does not provide financial advice. Ages 18+ only.
-    </div>
-  </div>  <div style="padding:30px 6%;text-align:center;color:#94a3b8;font-size:13px">
-    <p>ElitebetAfrica.com — Affiliate education site for Africa. We do not hold client funds. Trading via Deriv.com.</p>
-    <p>Contact: WhatsApp +254... | Email: elitebetafrica@gmail.com</p>
-    <p>© 2026 ElitebetAfrica. All rights reserved.</p>
-  </div>
+<!-- BETSLIP -->
+<div id="betslip">
+<div id="betslipText" style="font-size:14px;white-space:pre-line"></div>
+<div style="margin-top:10px">
+Stake: <input type="number" id="stakeInput" value="100" oninput="updateBetslip()"> 
+Odds: <span id="oddsDisplay">1.00</span><br>
+Potential Win: <span id="winDisplay">KES 0</span>
+</div>
+<button class="btn btn-yellow" style="width:100%;margin-top:10px;padding:15px" onclick="placeBet()">PLACE BET</button>
+</div>
+
+<!-- MODALS -->
+<div id="loginModal" class="modal" onclick="closeModal('loginModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Login</h3><input placeholder="Phone Number"><input type="password" placeholder="Password"><button class="btn btn-yellow" style="width:100%">LOGIN</button><p onclick="closeModal('loginModal')" style="text-align:center;margin-top:10px">Close</p></div></div>
+<div id="regModal" class="modal" onclick="closeModal('regModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Register</h3><input placeholder="Phone Number"><input placeholder="Full Name"><input type="password" placeholder="Password"><button class="btn btn-green" style="width:100%">CREATE ACCOUNT</button><p onclick="closeModal('regModal')" style="text-align:center;margin-top:10px">Close</p></div></div>
+<div id="depositModal" class="modal" onclick="closeModal('depositModal')"><div class="modal-box" onclick="event.stopPropagation()"><h3>Deposit via M-Pesa</h3><p>Paybill: <b>123456</b><br>Account: <b>ELITEBET</b></p><input placeholder="M-Pesa Code"><input placeholder="Amount"><button class="btn btn-green" style="width:100%">CONFIRM DEPOSIT</button><p onclick="closeModal('depositModal')" style="text-align:center;margin-top:10px">Close</p></div></div>
 
 <script>
-// Replace YOURCODE with your real Deriv affiliate ID
-// Example: https://track.deriv.com/_abc123
-document.querySelectorAll('a[href*="YOURCODE"]').forEach(a=>{
-  a.addEventListener('click',()=>{console.log("Going to broker")});
-});
-</script>
+const games = [
+["Arsenal vs Chelsea","2.8","3.1","2.5"],
+["Man Utd vs Liverpool","2.5","3.2","2.9"],
+["Barcelona vs Real Madrid","2.1","3.5","3.2"],
+["Bayern vs Dortmund","1.9","3.6","3.8"],
+["PSG vs Man City","2.4","3.3","2.8"]
+];
 
+const container = document.getElementById('matches');
+games.forEach(g=>{
+ let div = document.createElement('div');
+ div.className='match-card';
+ div.innerHTML = `<h3>${g[0]}</h3><div class="odds-row">
+ <button onclick="selectOdd(this)">1 ${g[1]}</button>
+ <button onclick="selectOdd(this)">X ${g[2]}</button>
+ <button onclick="selectOdd(this)">2 ${g[3]}</button>
+ </div>`;
+ container.appendChild(div);
+});
+
+function selectOdd(btn){
+ let row = btn.parentElement;
+ if(btn.classList.contains('selected')){
+   btn.classList.remove('selected');
+ } else {
+   row.querySelectorAll('button').forEach(b=>b.classList.remove('selected'));
+   btn.classList.add('selected');
+ }
+ updateBetslip();
+}
+
+function updateBetslip(){
+ let text="";
+ let total=1;
+ let count=0;
+ document.querySelectorAll('.match-card').forEach(card=>{
+   let sel = card.querySelector('.selected');
+   if(sel){
+     let match = card.querySelector('h3').innerText;
+     let odds = parseFloat(sel.innerText.split(' ').pop());
+     text += `${match} @ ${odds}\n`;
+     total *= odds;
+     count++;
+   }
+ });
+ let stake = parseFloat(document.getElementById('stakeInput').value)||0;
+ let win = total*stake;
+ let slip = document.getElementById('betslip');
+ if(count>0){
+   slip.style.display='block';
+   document.getElementById('betslipText').innerText=text;
+   document.getElementById('oddsDisplay').innerText=total.toFixed(2)+` (x${count})`;
+   document.getElementById('winDisplay').innerText=`KES ${win.toFixed(2)}`;
+ } else {
+   slip.style.display='none';
+ }
+}
+
+function placeBet(){
+ alert('Bet Placed! (Demo) - Connect M-Pesa API later');
+}
+function openModal(id){document.getElementById(id).style.display='flex';}
+function closeModal(id){document.getElementById(id).style.display='none';}
+</script>
 </body>
 </html>
