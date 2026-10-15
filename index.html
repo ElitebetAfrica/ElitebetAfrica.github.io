@@ -18,11 +18,9 @@ body{margin:0;background:#0f0a1e;color:white;font-family:Arial}
 .boost{background:linear-gradient(135deg,#6a2acd,#4a1a8a);text-align:center}
 .mult{font-size:48px;font-weight:bold;margin:10px 0;transition:all 0.1s}
 .btn{background:#ffeb3b;color:#000;border:none;padding:12px;width:100%;border-radius:10px;font-weight:bold;font-size:16px}
-.btn:disabled{background:#666}
 .input{width:100%;padding:12px;border-radius:8px;border:none;margin:10px 0;box-sizing:border-box}
 .linkbox{color:#ffeb3b;word-break:break-all;font-size:13px}
-.crashed{color:#ff4444}
-.flying{color:#00ff88}
+.crashed{color:#ff4444} .flying{color:#00ff88}
 </style>
 </head>
 <body>
@@ -30,36 +28,32 @@ body{margin:0;background:#0f0a1e;color:white;font-family:Arial}
 <h1>LIVE KENYA DLS <span>V5.0 SAFE</span><br><small style="color:#ccc;font-size:11px">Hold My Match Arena</small></h1>
 <div class="kes">KES 0.00</div>
 </div>
-
 <div class="tabs">
 <button class="active">All Games</button>
 <button>DLS Clash</button>
 <button>Boost Plane ✈️</button>
 </div>
-
 <div class="card boost">
 <h2>✈️ Boost Plane - Fly High</h2>
-<small>Auto crash 8% edge • Safe for Aviator</small>
+<small>Fly high and cashout before crash! ✈️💰</small>
 <div class="mult" id="mult">1.00x</div>
 <p id="status">Ready to fly!</p>
 <button class="btn" id="boostBtn" onclick="startBoost()">START BOOST</button>
 </div>
-
 <div class="card">
-<h2 style="margin:0">⚽ DLS - Hold My Match (12% hold)</h2>
-<small>Create link, friend joins, winner gets 88% auto</small>
+<h2 style="margin:0">⚽ DLS - Hold My Match</h2>
+<small>Create link, friend joins, winner takes prize! 🏆</small>
 <input class="input" placeholder="Amount KES e.g 100" type="number" id="amt">
 <button class="btn" onclick="create()">+ Create DLS Link</button>
-<div style="margin-top:10px">Your link:<br><span class="linkbox" id="link">https://elitebetafrica.github.io/?dls=LKD36947&amt=100<br>Share WhatsApp! You get 12% = KES 12</span></div>
+<div style="margin-top:10px">Your link:<br><span class="linkbox" id="link">https://elitebetafrica.github.io/?dls=LKD36947&amt=100<br>Share on WhatsApp!</span></div>
 </div>
-
 <script>
 let flying=false; let mult=1.00; let crashAt=0; let timer=null;
 function startBoost(){
 if(flying){ cashout(); return; }
 flying=true; mult=1.00;
-crashAt = (Math.random()*4 + 1.10).toFixed(2); // crash 1.10x to 5.10x
-if(Math.random()<0.08) crashAt = (Math.random()*0.5+1.01).toFixed(2); // 8% early crash
+crashAt = (Math.random()*4 + 1.10).toFixed(2);
+if(Math.random()<0.08) crashAt = (Math.random()*0.5+1.01).toFixed(2);
 document.getElementById('mult').className='mult flying';
 document.getElementById('mult').innerText='1.00x';
 document.getElementById('status').innerText='Flying... ✈️ Tap to CASHOUT!';
@@ -83,7 +77,6 @@ document.getElementById('boostBtn').style.background='#ffeb3b';
 function cashout(){
 if(!flying) return;
 clearInterval(timer); flying=false;
-document.getElementById('mult').className='mult flying';
 document.getElementById('status').innerText='✅ Cashed out at '+mult.toFixed(2)+'x! You win!';
 document.getElementById('boostBtn').innerText='START BOOST';
 document.getElementById('boostBtn').style.background='#ffeb3b';
@@ -93,7 +86,7 @@ let a=document.getElementById('amt').value||100;
 let id='LKD'+Math.floor(100000+Math.random()*900000);
 let url='https://elitebetafrica.github.io/?dls='+id+'&amt='+a;
 let earn=Math.floor(a*0.12);
-document.getElementById('link').innerHTML=url+'<br>Share WhatsApp! You get 12% = KES '+earn;
+document.getElementById('link').innerHTML=url+'<br>Share on WhatsApp!';
 }
 if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
 </script>
