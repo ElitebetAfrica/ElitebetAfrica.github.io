@@ -1,1 +1,57 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LIVE KENYA DLS - DLS Arena V5.0</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#4a1a8a">
+<link rel="icon" href="icon-192.png">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
+body{background:#0f0a1e;color:#fff}
+.header{background:#4a1a8a;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.logo{color:#FFD700;font-weight:bold;font-size:18px}
+.badge{background:#FFD700;color:#4a1a8a;padding:2px 6px;border-radius:4px;font-size:10px;margin-left:6px}
+.tabs{display:flex;overflow:auto;background:#1a1040;padding:8px;gap:8px}
+.tab{padding:8px 14px;border-radius:20px;background:#2a1a5a;font-size:13px;white-space:nowrap}
+.tab.active{background:#FFD700;color:#000}
+.card{background:#1e1240;margin:10px;border-radius:12px;padding:12px;border:1px solid #3a2a6a}
+.boost{background:linear-gradient(135deg,#7c3aed,#4a1a8a);padding:16px;border-radius:12px;margin:10px;text-align:center}
+.btn{padding:10px 16px;border:none;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-top:8px}
+.btn-yellow{background:#FFD700;color:#000}
+</style>
+</head>
+<body>
+<div class="header">
+<div><span class="logo">LIVE KENYA DLS</span><span class="badge">V5.0 SAFE</span><div style="font-size:10px;color:#ccc">Hold My Match Arena • By EliteBetAfrica</div></div>
+<div><button style="background:#FFD700;border:none;padding:6px 12px;border-radius:6px;font-weight:bold">KES 0.00</button></div>
+</div>
+<div class="tabs">
+<div class="tab active">All Games</div>
+<div class="tab">DLS Clash</div>
+<div class="tab">Boost Plane ✈️</div>
+<div class="tab">LIVE 9</div>
+</div>
+<div class="card"><b style="color:#FFD700">🔴 LIVE NOW - UCL 9 Games</b><div style="font-size:12px;color:#aaa">LASK vs Liverpool LIVE 23' • Man City vs PSG 11'</div></div>
+<div class="boost">
+<h3>✈️ Boost Plane - Fly High</h3>
+<p style="font-size:12px">Auto crash 8% edge • Safe name for Aviator</p>
+<div id="mult" style="font-size:36px;font-weight:bold;margin:10px">1.00x</div>
+<button class="btn btn-yellow" onclick="fly()">START BOOST</button>
+</div>
+<div class="card">
+<h3>⚽ DLS - Hold My Match (12% hold)</h3>
+<p style="font-size:12px;color:#ccc">Create link, friend joins, winner gets 88% auto</p>
+<input id="amt" type="number" placeholder="Amount KES e.g 100" style="width:100%;padding:10px;border-radius:6px;margin-top:8px">
+<button class="btn btn-yellow" onclick="createDLS()">+ Create DLS Link</button>
+<div id="link" style="margin-top:8px;font-size:12px;color:#FFD700"></div>
+</div>
+<script>
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js')}
+function fly(){let m=1.0;let crash=Math.random()<0.7?1.01+Math.random()*0.99:2+Math.random()*6;let iv=setInterval(()=>{m+=0.08;document.getElementById('mult').innerText=m.toFixed(2)+'x';if(m>=crash){clearInterval(iv);document.getElementById('mult').innerText='💥 CRASH '+crash.toFixed(2)+'x';setTimeout(()=>document.getElementById('mult').innerText='1.00x',2000)}},100)}
+function createDLS(){let amt=document.getElementById('amt').value||100;let id='LKD'+Math.floor(Math.random()*90000+10000);let link=location.href.split('?')[0]+'?dls='+id+'&amt='+amt;document.getElementById('link').innerHTML='Your link:<br><b>'+link+'</b><br>Share WhatsApp! You get 12% = KES '+(amt*0.12).toFixed(0)}
+</script>
+</body>
+</html>
