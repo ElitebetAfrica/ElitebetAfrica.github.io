@@ -1,86 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ADMIN PRO - ElitebetAfrica</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ADMIN Live DLs</title>
 <style>
-body{background:#0a0a0a;color:#fff;font-family:Arial;padding:12px;margin:0}
-.card{background:#1e1e1e;padding:14px;margin:10px 0;border-radius:10px;border-left:4px solid #ffcc00}
-input{width:100%;padding:12px;margin:6px 0;border-radius:6px;border:none;background:#333;color:#fff;box-sizing:border-box}
-button{width:100%;padding:13px;background:#ffcc00;border:none;border-radius:8px;font-weight:bold;margin:6px 0}
-.match-item{background:#2a2a2a;padding:10px;margin:6px 0;border-radius:6px;display:flex;justify-content:space-between}
+body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px}
+h1{color:#00ff88}
+.card{background:#1e1e1e;padding:15px;border-radius:12px;margin:12px 0}
+table{width:100%;border-collapse:collapse;margin-top:10px}
+th,td{border:1px solid #333;padding:8px;font-size:13px}
+th{background:#00ff88;color:#000}
+button{background:#00ff88;color:#000;border:0;padding:10px 15px;border-radius:8px;font-weight:bold;margin:5px}
 </style>
 </head>
 <body>
-<h2>ElitebetAfrica - BOSS ADMIN PRO</h2>
-<p id="adminPhone"></p>
+<h1>🛡️ Live DLs ADMIN</h1>
 <div class="card">
-<h3>📊 LIVE Dashboard</h3>
-<p>Total Users: <span id="uCount">0</span></p>
-<p>Total Bets: <span id="bCount">0</span></p>
-<p>Total Deposits: KES <span id="dCount">0</span></p>
+Users: <span id="uCount">loading...</span><br><br>
+<button onclick="loadUsers()">REFRESH</button>
+<button onclick="window.location.href='index.html'">Go to Site</button>
 </div>
 <div class="card">
-<h3>⚽ POST REAL MATCH</h3>
-<input id="league" placeholder="League e.g. Premier League">
-<input id="team1" placeholder="Home Team">
-<input id="team2" placeholder="Away Team">
-<input id="time" type="time">
-<input id="odd1" placeholder="Odd Home e.g. 2.10">
-<input id="oddx" placeholder="Odd Draw e.g. 3.20">
-<input id="odd2" placeholder="Odd Away e.g. 2.80">
-<button onclick="addMatch()">POST MATCH TO SITE</button>
+<h3>All Users</h3>
+<table><tr><th>Phone</th><th>Balance</th><th>Password</th></tr>
+<tbody id="userTable"><tr><td colspan=3>Loading...</td></tr></tbody></table>
 </div>
-<div class="card">
-<h3>📋 Current Matches</h3>
-<div id="matchList"></div>
-</div>
-<div class="card">
-<h3>👥 Registered Users</h3>
-<div id="userList"></div>
-</div>
-<button style="background:#fff" onclick="location.href='index.html'">BACK TO SITE</button>
-<button style="background:red;color:white" onclick="logout()">LOGOUT</button>
-<script>
-if(localStorage.getItem('isAdmin')!=='yes'){alert('Login as admin first');location.href='index.html';}
-document.getElementById('adminPhone').innerText='Admin: '+localStorage.getItem('adminPhone');
-function loadAll(){
- let users=JSON.parse(localStorage.getItem('elite_users')||'[]');
- let bets=JSON.parse(localStorage.getItem('elite_bets')||'[]');
- let deposits=JSON.parse(localStorage.getItem('elite_deposits')||'[]');
- document.getElementById('uCount').innerText=users.length;
- document.getElementById('bCount').innerText=bets.length;
- let total=deposits.reduce((a,b)=>a+Number(b.amount||0),0);
- document.getElementById('dCount').innerText=total;
- let html=''; users.forEach(u=>{html+=`<div class="match-item"><span>${u.phone} - PIN: ${u.pin}</span><span>KES ${u.balance||0}</span></div>`});
- document.getElementById('userList').innerHTML=html||'No users yet';
- let matches=JSON.parse(localStorage.getItem('elite_matches')||'[]');
- let mHtml=''; matches.forEach((m,i)=>{mHtml+=`<div class="match-item"><span>${m.league}<br><b>${m.team1} vs ${m.team2}</b><br>${m.odd1} / ${m.oddx} / ${m.odd2}</span><button style="width:60px;background:red;color:white" onclick="delMatch(${i})">X</button></div>`});
- document.getElementById('matchList').innerHTML=mHtml||'No matches posted';
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import {getFirestore, collection, getDocs} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyDSGfITcfwHx_90dM4TqjENNYbcSzo2uV0",
+  authDomain: "live-dls-kenya.firebaseapp.com",
+  projectId: "live-dls-kenya",
+  storageBucket: "live-dls-kenya.firebasestorage.app",
+  messagingSenderId: "614038679429",
+  appId: "1:614038679429:web:9e6bfebfefcdd72a7b9eec"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+window.loadUsers = async () => {
+  try {
+    const snap = await getDocs(collection(db, "users"));
+    document.getElementById("uCount").innerText = snap.size;
+    let html=""; snap.forEach(doc=>{
+      const d=doc.data();
+      html+=`<tr><td>${doc.id}</td><td>${d.balance||0}</td><td>${d.password||'***'}</td></tr>`;
+    });
+    document.getElementById("userTable").innerHTML = html || "<tr><td colspan=3>No users yet - register on main site</td></tr>";
+  } catch(e){ alert("Error: "+e.message); }
 }
-function addMatch(){
- let league=document.getElementById('league').value;
- let team1=document.getElementById('team1').value;
- let team2=document.getElementById('team2').value;
- let time=document.getElementById('time').value;
- let odd1=document.getElementById('odd1').value;
- let oddx=document.getElementById('oddx').value;
- let odd2=document.getElementById('odd2').value;
- if(!team1||!team2){alert('Enter teams');return;}
- let matches=JSON.parse(localStorage.getItem('elite_matches')||'[]');
- matches.push({league,team1,team2,time,odd1,oddx,odd2});
- localStorage.setItem('elite_matches',JSON.stringify(matches));
- alert('Match Posted!');
- loadAll();
-}
-function delMatch(i){
- let matches=JSON.parse(localStorage.getItem('elite_matches')||'[]');
- matches.splice(i,1);
- localStorage.setItem('elite_matches',JSON.stringify(matches));
- loadAll();
-}
-function logout(){localStorage.removeItem('isAdmin');location.href='index.html';}
-loadAll();
+loadUsers();
 </script>
 </body>
 </html>
