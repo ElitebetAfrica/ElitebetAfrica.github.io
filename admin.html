@@ -1,55 +1,40 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ADMIN Live DLs</title>
-<style>
-body{background:#0a0a0a;color:#fff;font-family:Arial;padding:15px}
-h1{color:#00ff88}
-.card{background:#1e1e1e;padding:15px;border-radius:12px;margin:12px 0}
-table{width:100%;border-collapse:collapse;margin-top:10px}
-th,td{border:1px solid #333;padding:8px;font-size:13px}
-th{background:#00ff88;color:#000}
-button{background:#00ff88;color:#000;border:0;padding:10px 15px;border-radius:8px;font-weight:bold;margin:5px}
-</style>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live DLs ADMIN</title>
+<style>body{background:#111;color:#fff;font-family:sans-serif;padding:15px}h1{color:#00ff88}.card{background:#222;padding:12px;margin:10px 0;border-radius:10px;display:flex;justify-content:space-between;align-items:center}button{background:#00ff88;border:0;padding:8px 12px;border-radius:6px;font-weight:bold}</style>
 </head>
 <body>
-<h1>🛡️ Live DLs ADMIN</h1>
-<div class="card">
-Users: <span id="uCount">loading...</span><br><br>
-<button onclick="loadUsers()">REFRESH</button>
-<button onclick="window.location.href='index.html'">Go to Site</button>
-</div>
-<div class="card">
-<h3>All Users</h3>
-<table><tr><th>Phone</th><th>Balance</th><th>Password</th></tr>
-<tbody id="userTable"><tr><td colspan=3>Loading...</td></tr></tbody></table>
-</div>
+<h1>🛡️ Live DLs ADMIN - holds</h1>
+<div id="list">Loading...</div>
 <script type="module">
-import {initializeApp} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import {getFirestore, collection, getDocs} from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-const firebaseConfig = {
-  apiKey: "AIzaSyDSGfITcfwHx_90dM4TqjENNYbcSzo2uV0",
-  authDomain: "live-dls-kenya.firebaseapp.com",
-  projectId: "live-dls-kenya",
-  storageBucket: "live-dls-kenya.firebasestorage.app",
-  messagingSenderId: "614038679429",
-  appId: "1:614038679429:web:9e6bfebfefcdd72a7b9eec"
-};
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-window.loadUsers = async () => {
-  try {
-    const snap = await getDocs(collection(db, "users"));
-    document.getElementById("uCount").innerText = snap.size;
-    let html=""; snap.forEach(doc=>{
-      const d=doc.data();
-      html+=`<tr><td>${doc.id}</td><td>${d.balance||0}</td><td>${d.password||'***'}</td></tr>`;
-    });
-    document.getElementById("userTable").innerHTML = html || "<tr><td colspan=3>No users yet - register on main site</td></tr>";
-  } catch(e){ alert("Error: "+e.message); }
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import{getFirestore,collection,getDocs,updateDoc,doc}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyDSGfITcfwHx_90dM4TqjENNYbcSzo2uV0",authDomain:"live-dls-kenya.firebaseapp.com",projectId:"live-dls-kenya",storageBucket:"live-dls-kenya.firebasestorage.app",messagingSenderId:"614038679429",appId:"1:614038679429:web:9e6bfebfefcdd72a7b9eec"};
+const app=initializeApp(firebaseConfig);const db=getFirestore(app);
+async function load(){
+try{
+const snap=await getDocs(collection(db,"holds"));
+const list=document.getElementById("list");
+if(snap.empty){list.innerHTML="No users in holds collection";return;}
+let html="";
+snap.forEach(d=>{
+const u=d.data();
+html+=`<div class=card><div><b>ID: ${d.id}</b><br>Balance: ${u.balance||u.bal||0} KES<br>Phone: ${u.phone||""}</div><div><button onclick="addBal('${d.id}',100)">+100</button> <button onclick="addBal('${d.id}',1000)">+1000</button></div></div>`;
+});
+list.innerHTML=html;
+}catch(e){alert("Error: "+e.message);document.getElementById("list").innerHTML=e.message;}
 }
-loadUsers();
+window.addBal=async(id,amt)=>{
+const ref=doc(db,"holds",id);
+const snap=await getDocs(collection(db,"holds"));
+let cur=0;
+snap.forEach(x=>{if(x.id===id){cur=x.data().balance||x.data().bal||0}});
+await updateDoc(ref,{balance:cur+amt});
+alert("Added "+amt+" to "+id);
+load();
+};
+load();
 </script>
 </body>
 </html>
