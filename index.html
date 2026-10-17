@@ -1,40 +1,23 @@
 <!DOCTYPE html>
-<html>
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Live DLs ADMIN</title>
-<style>body{background:#111;color:#fff;font-family:sans-serif;padding:15px}h1{color:#00ff88}.card{background:#222;padding:12px;margin:10px 0;border-radius:10px;display:flex;justify-content:space-between;align-items:center}button{background:#00ff88;border:0;padding:8px 12px;border-radius:6px;font-weight:bold}</style>
-</head>
-<body>
-<h1>🛡️ Live DLs ADMIN - holds</h1>
-<div id="list">Loading...</div>
-<script type="module">
-import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import{getFirestore,collection,getDocs,updateDoc,doc}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
-const firebaseConfig={apiKey:"AIzaSyDSGfITcfwHx_90dM4TqjENNYbcSzo2uV0",authDomain:"live-dls-kenya.firebaseapp.com",projectId:"live-dls-kenya",storageBucket:"live-dls-kenya.firebasestorage.app",messagingSenderId:"614038679429",appId:"1:614038679429:web:9e6bfebfefcdd72a7b9eec"};
-const app=initializeApp(firebaseConfig);const db=getFirestore(app);
-async function load(){
-try{
-const snap=await getDocs(collection(db,"holds"));
-const list=document.getElementById("list");
-if(snap.empty){list.innerHTML="No users in holds collection";return;}
-let html="";
-snap.forEach(d=>{
-const u=d.data();
-html+=`<div class=card><div><b>ID: ${d.id}</b><br>Balance: ${u.balance||u.bal||0} KES<br>Phone: ${u.phone||""}</div><div><button onclick="addBal('${d.id}',100)">+100</button> <button onclick="addBal('${d.id}',1000)">+1000</button></div></div>`;
-});
-list.innerHTML=html;
-}catch(e){alert("Error: "+e.message);document.getElementById("list").innerHTML=e.message;}
-}
-window.addBal=async(id,amt)=>{
-const ref=doc(db,"holds",id);
-const snap=await getDocs(collection(db,"holds"));
-let cur=0;
-snap.forEach(x=>{if(x.id===id){cur=x.data().balance||x.data().bal||0}});
-await updateDoc(ref,{balance:cur+amt});
-alert("Added "+amt+" to "+id);
-load();
-};
-load();
-</script>
-</body>
-</html>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Live DLs Kenya - Bet Live</title>
+<style>
+body{margin:0;background:#0a0a0a;color:#fff;font-family:Arial,sans-serif}
+.header{background:#111;padding:12px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #00ff88}
+.logo{font-weight:bold;color:#00ff88;font-size:18px}
+.balbox{background:#222;padding:6px 12px;border-radius:20px;color:#00ff88;font-weight:bold}
+.wrap{padding:12px}
+.loginbox{background:#1a1a1a;padding:12px;border-radius:12px;margin-bottom:15px}
+input{width:92%;padding:12px;background:#222;border:1px solid #333;color:#fff;border-radius:8px;margin:6px 0}
+.btn{width:100%;padding:12px;background:#00ff88;color:#000;border:0;border-radius:8px;font-weight:bold;font-size:16px}
+.match{background:#1a1a1a;border-radius:12px;padding:12px;margin-bottom:10px;border-left:4px solid #00ff88}
+.teams{font-weight:bold;font-size:16px;margin-bottom:8px}
+.odds{display:flex;gap:6px}
+.odds button{flex:1;padding:10px;background:#2a2a2a;border:0;color:#fff;border-radius:8px}
+.odds button:active{background:#00ff88;color:#000}
+</style></head><body>
+<div class=header><div class=logo>⚽ LIVE DLS KENYA</div><div class=balbox id=bal>KSH 0.00</div></div>
+<div class=wrap>
+<div class=loginbox>
+<input id=uid placeholder="Enter ID e.g. LKD23917">
+<button class=btn onclick="login()">LOGIN / CHECK BALANCE</button>
+<div
