@@ -1,1 +1,40 @@
-<!DOCTYPE html><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>LIVE DLS</title><style>*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}body{background:#0f0a1e;color:#fff;padding:12px}.h{background:#4a1a8a;padding:12px;border-radius:12px;display:flex;justify-content:space-between;align-items:center}.w{background:#ffeb3b;color:#000;padding:8px 12px;border-radius:20px;font-weight:900}.c{margin:12px 0;padding:14px;border-radius:14px;background:#1e1239}.b{background:#ffeb3b;color:#000;border:0;width:100%;padding:12px;border-radius:10px;font-weight:900;margin-top:8px}.i{width:100%;padding:10px;border-radius:8px;border:0;margin:6px 0}</style><div class=h><div style="display:flex;gap:8px;align-items:center"><img src="IMG-20261017-WA6562.jpg" style="width:48px;height:48px;border-radius:50%;border:2px solid #ffeb3b"><div><b style="color:#ffeb3b">LIVE KENYA DLS</b><div id=s style="font-size:10px">...</div></div></div><div class=w id=bal>0</div></div><div class=c><b>DLS Hold 12% - Firebase</b><input id=amt class=i type=number placeholder="Stake 100"><button class=b onclick="cD()">Create Hold Link</button><div id=lk style="background:#0005;padding:8px;border-radius:8px;word-break:break-all;font-size:11px;color:#ffeb3b;margin-top:6px;display:none"></div><button class=b style="background:0;color:#ffeb3b;border:1px solid" onclick="sW()">Share WhatsApp</button><div id=ls style="font-size:12px;margin-top:8px">No holds</div></div><div class=c><button class=b style="background:#fff" onclick="dR()">Register/Login</button><button class=b style="background:#2a1848;color:#ffeb3b;border:1px solid" onclick="dD()">Deposit 50+</button><div style="font-size:10px;text-align:center;margin-top:6px">Admin 0112678036 | <span id=rm></span></div></div><script type=module>import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";import{getFirestore as gF,collection as col,doc,setDoc,getDoc,updateDoc,getDocs,query,where}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";const cfg={apiKey:"AIzaSyDSGfITcfwHx_90dM4TqjENNYbcSzo2uV0",authDomain:"live-dls-kenya.firebaseapp.com",projectId:"live-dls-kenya",storageBucket:"live-dls-kenya.firebasestorage.app",messagingSenderId:"614038679429",appId:"1:614038679429:web:9e6bfebfefcdd72a7b9eec"};const app=initializeApp(cfg);window.db=gF(app);window.O={col,doc,setDoc,getDoc,updateDoc,getDocs,query,where};s.innerText="CONNECTED";</script><script>var cur=null,hs=[],lst='';try{cur=JSON.parse(localStorage.c||'null');hs=JSON.parse(localStorage.h||'[]')}catch(e){}function sv(){if(cur)localStorage.c=JSON.stringify(cur);localStorage.h=JSON.stringify(hs)}function sh(){bal.innerText='KES '+(cur&&cur.balance||0);var e=ls;if(!hs.length){e.innerText='No holds';return}var h='';hs.slice(0,5).forEach(x=>{h+='<div style="background:#0003;padding:6px;border-radius:6px;margin:4px 0">'+x.c+' • '+x.a+' • keep '+x.h+' • '+x.s+' <button onclick="cf(\''+x.c+'\')" style="background:#ffeb3b;border:0;padding:2px 6px;border-radius:4px">OK</button></div>'});e.innerHTML=h}async function dR(){var p=prompt('Phone 07...');if(!p)return;var w=prompt('Password');if(!w)return;rm.innerText='Saving...';try{var c=O.col(db,'users');var q=O.query(c,O.where('phone','==',p));var s=await O.getDocs(q);if(!s.empty){var d=await O.getDoc(O.doc(db,'users',p));var u=d.data();if(u.password!=w){rm.innerText='Wrong pass';return}localStorage.c=JSON.stringify(u);cur=u;sh();rm.innerText='Logged KES '+u.balance;return}var u={phone:p,password:w,balance:0,created:Date.now()};await O.setDoc(O.doc(db,'users',p),u);localStorage.c=JSON.stringify(u);cur=u;sh();rm.innerText='Registered!'}catch(e){rm.innerText=e.message}}async function dD(){if(!cur){alert('Register first');return}var a=parseFloat(prompt('Deposit amount 50+','100'));if(!a||a<50)return;try{cur.balance=(cur.balance||0)+a;await O.updateDoc(O.doc(db,'users',cur.phone),{balance:cur.balance});sv();sh();rm.innerText='Added KES '+a}catch(e){rm.innerText=e.message}}async function cD(){var a=parseFloat(amt.value)||100;var cd='LKD'+Math.floor(1e4+Math.random()*9e4);var l='https://elitebetafrica.github.io/?dls='+cd+'&amt='+a;lst=l;lk.style.display='block';lk.innerText=l;var ha=(a*.12).toFixed(0);var h={c:cd,a:a,h:ha,s:'waiting'};hs.unshift(h);sv();sh();try{await O.setDoc(O.doc(db,'holds',cd),{...h,host:cur?cur.phone:'?'})}catch(e){}}async function cf(c){var h=hs.find(x=>x.c==c);if(!h)return;if(confirm('Confirm winner?')){h.s='paid kept '+h.h;sv();sh();try{await O.updateDoc(O.doc(db,'holds',c),{status:h.s})}catch(e){}alert('Kept '+h.h+' KES!')}}function sW(){if(!lst)return;var t='Join my DLS Hold! Stake '+amt.value+' KES. I hold 12%. Link: '+lst;open('https://wa.me/?text='+encodeURIComponent(t),'_blank')}sh();</script>
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live DLs ADMIN</title>
+<style>body{background:#111;color:#fff;font-family:sans-serif;padding:15px}h1{color:#00ff88}.card{background:#222;padding:12px;margin:10px 0;border-radius:10px;display:flex;justify-content:space-between;align-items:center}button{background:#00ff88;border:0;padding:8px 12px;border-radius:6px;font-weight:bold}</style>
+</head>
+<body>
+<h1>🛡️ Live DLs ADMIN - holds</h1>
+<div id="list">Loading...</div>
+<script type="module">
+import{initializeApp}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import{getFirestore,collection,getDocs,updateDoc,doc}from"https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyDSGfITcfwHx_90dM4TqjENNYbcSzo2uV0",authDomain:"live-dls-kenya.firebaseapp.com",projectId:"live-dls-kenya",storageBucket:"live-dls-kenya.firebasestorage.app",messagingSenderId:"614038679429",appId:"1:614038679429:web:9e6bfebfefcdd72a7b9eec"};
+const app=initializeApp(firebaseConfig);const db=getFirestore(app);
+async function load(){
+try{
+const snap=await getDocs(collection(db,"holds"));
+const list=document.getElementById("list");
+if(snap.empty){list.innerHTML="No users in holds collection";return;}
+let html="";
+snap.forEach(d=>{
+const u=d.data();
+html+=`<div class=card><div><b>ID: ${d.id}</b><br>Balance: ${u.balance||u.bal||0} KES<br>Phone: ${u.phone||""}</div><div><button onclick="addBal('${d.id}',100)">+100</button> <button onclick="addBal('${d.id}',1000)">+1000</button></div></div>`;
+});
+list.innerHTML=html;
+}catch(e){alert("Error: "+e.message);document.getElementById("list").innerHTML=e.message;}
+}
+window.addBal=async(id,amt)=>{
+const ref=doc(db,"holds",id);
+const snap=await getDocs(collection(db,"holds"));
+let cur=0;
+snap.forEach(x=>{if(x.id===id){cur=x.data().balance||x.data().bal||0}});
+await updateDoc(ref,{balance:cur+amt});
+alert("Added "+amt+" to "+id);
+load();
+};
+load();
+</script>
+</body>
+</html>
